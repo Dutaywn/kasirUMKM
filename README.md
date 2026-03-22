@@ -84,47 +84,6 @@ kasirUMKM/
 └── README.md
 ```
 
----
-
-## ⚙️ Instalasi & Menjalankan Proyek
-
-### Prasyarat
-
-Pastikan kamu sudah menginstall:
-- [Node.js](https://nodejs.org/) versi **20** atau lebih baru
-- **npm**, **yarn**, **pnpm**, atau **bun**
-
-### Langkah Instalasi
-
-**1. Clone repositori**
-```bash
-git clone https://github.com/Dutaywn/kasirUMKM.git
-cd kasirUMKM
-```
-
-**2. Install dependensi**
-```bash
-npm install
-```
-
-**3. Konfigurasi environment**
-
-Buat file `.env.local` di root direktori proyek:
-```env
-NEXT_PUBLIC_API_URL=http://localhost:3001/api
-```
-
-> 💡 Sesuaikan URL dengan alamat backend API kamu.
-
-**4. Jalankan server pengembangan**
-```bash
-npm run dev
-```
-
-Buka [http://localhost:3000](http://localhost:3000) di browser untuk melihat hasilnya 🎉
-
----
-
 ## 🖥️ Halaman Aplikasi
 
 | Halaman | Route | Deskripsi |
@@ -137,52 +96,6 @@ Buka [http://localhost:3000](http://localhost:3000) di browser untuk melihat has
 | 🛒 Checkout | `/page/checkout` | Konfirmasi pesanan & proses pembayaran |
 
 ---
-
-## 📜 Perintah yang Tersedia
-
-```bash
-# Jalankan server pengembangan (hot-reload)
-npm run dev
-
-# Build untuk produksi
-npm run build
-
-# Jalankan server produksi
-npm run start
-
-# Cek kualitas kode dengan ESLint
-npm run lint
-```
-
----
-
-## 🔌 Integrasi API
-
-Aplikasi ini berkomunikasi dengan backend REST API. Berikut endpoint utama yang digunakan:
-
-| Method | Endpoint | Deskripsi |
-|--------|----------|-----------|
-| `POST` | `/auth/login` | Login pengguna |
-| `POST` | `/auth/register` | Registrasi pengguna baru |
-| `GET` | `/products` | Ambil semua produk |
-| `POST` | `/products` | Tambah produk baru |
-| `PUT` | `/products/:id` | Update produk |
-| `DELETE` | `/products/:id` | Hapus produk |
-| `POST` | `/orders` | Buat order baru |
-
----
-
-## 🚢 Deploy ke Vercel
-
-Cara termudah untuk men-deploy aplikasi ini adalah menggunakan [Vercel Platform](https://vercel.com/new).
-
-1. Push kode ke repositori GitHub
-2. Import proyek di [vercel.com/new](https://vercel.com/new)
-3. Tambahkan environment variable `NEXT_PUBLIC_API_URL`
-4. Klik **Deploy** 🚀
-
----
-
 ## 🤝 Kontribusi
 
 Kontribusi sangat disambut! Berikut cara berkontribusi:
