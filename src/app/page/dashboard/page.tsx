@@ -5,15 +5,26 @@ import { useRouter } from "next/navigation";
 import { authService } from "@/service/authService";
 import Sidebar from "@/app/components/Sidebar";
 import ProductCard from "@/app/components/ProductCard";
-import { useGetProducts } from "@/app/hook/useProduct";
+import SideDrawer from "@/app/components/sideDrawer";
+import CartBottom from "@/app/components/CartBottom";
+import { useGetProducts, useUpdateProduct } from "@/app/hook/useProduct";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function DashboardPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [user, setUser] = useState<any>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
+  // Drawer states
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [newStock, setNewStock] = useState<number>(0);
+  const [isUpdating, setIsUpdating] = useState(false);
+
   // Hook TanStack Query
   const { data: products, isLoading: isProductsLoading, isError, error } = useGetProducts();
+  const updateProduct = useUpdateProduct();
 
   useEffect(() => {
     const userData = authService.getUser();
@@ -24,6 +35,40 @@ export default function DashboardPage() {
       setIsAuthLoading(false);
     }
   }, [router]);
+
+  const handleEditStock = (product: any) => {
+    setSelectedProduct(product);
+    const lastStock = product.stocks?.at(-1);
+    setNewStock(lastStock?.total || 0);
+    setIsDrawerOpen(true);
+  };
+
+  const handleUpdateStock = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProduct) return;
+
+    setIsUpdating(true);
+    updateProduct.mutate(
+      {
+        id: selectedProduct.id,
+        data: {
+          stocks: newStock,
+        },
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["products"] });
+          setIsDrawerOpen(false);
+          setIsUpdating(false);
+          alert("Stock updated successfully!");
+        },
+        onError: (err: any) => {
+          alert("Error updating stock: " + err.message);
+          setIsUpdating(false);
+        },
+      }
+    );
+  };
 
   if (isAuthLoading) {
     return (
@@ -56,6 +101,7 @@ export default function DashboardPage() {
             </p>
           </div>
         </header>
+
         {/* Product Grid Section */}
         <section className="space-y-6">
 
@@ -106,12 +152,97 @@ export default function DashboardPage() {
             ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {products?.map((product: any) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product} onEditStock={handleEditStock} />
                 ))}
             </div>
             )}
         </section>
       </main>
+
+      {/* Side Drawer for Editing Stock */}
+      <SideDrawer
+        isOpen={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        title="Edit Stock Produk"
+      >
+        {selectedProduct && (
+          <form onSubmit={handleUpdateStock} className="space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700">
+                <div className="w-16 h-16 bg-slate-800 rounded-xl flex-shrink-0 overflow-hidden">
+                  {selectedProduct.imgUrl && selectedProduct.imgUrl !== "coba" ? (
+                    <img src={selectedProduct.imgUrl} alt={selectedProduct.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-slate-500">
+                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                      </svg>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <h3 className="font-bold text-white">{selectedProduct.name}</h3>
+                  <p className="text-sm text-slate-400 capitalize">{selectedProduct.category?.name || "General"}</p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-400 ml-1">Update Stock</label>
+                <div className="relative group">
+                  <input
+                    type="number"
+                    value={newStock}
+                    onChange={(e) => setNewStock(Number(e.target.value))}
+                    className="w-full bg-slate-800 border-2 border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500 transition-all text-xl font-bold"
+                    placeholder="Masukkan jumlah stock"
+                    min="0"
+                    required
+                  />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-medium">
+                    Units
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 flex items-start gap-3">
+                <svg className="w-5 h-5 text-indigo-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-xs text-slate-400 leading-relaxed">
+                  Perubahan stock akan langsung memperbarui inventaris Anda. Pastikan jumlah yang dimasukkan sudah sesuai dengan fisik barang.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-3 pt-4">
+              <button
+                type="submit"
+                disabled={isUpdating}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-indigo-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+              >
+                {isUpdating ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    Memperbarui...
+                  </>
+                ) : (
+                  "Simpan Perubahan"
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsDrawerOpen(false)}
+                className="w-full bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white font-semibold py-3 rounded-2xl transition-all"
+              >
+                Batal
+              </button>
+            </div>
+          </form>
+        )}
+      </SideDrawer>
+
+      {/* Sticky Bottom Cart */}
+      <CartBottom />
 
       {/* Mobile Nav Overlay (Optional) */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-4 flex justify-around items-center z-50 backdrop-blur-md bg-opacity-80">

@@ -23,7 +23,8 @@ export default function TableProducts({ products, onEdit, onDelete }: ProductTab
         </thead>
         <tbody className="divide-y divide-slate-800">
           {products.map((product) => {
-            const stockCount = product.stocks?.[0]?.total ?? 0;
+            const lastStock = product.stocks?.at(-1);
+            const stockCount = lastStock?.total ?? 0;
             return (
               <tr key={product.id} className="hover:bg-slate-800/30 transition-colors group">
                 <td className="px-6 py-4">

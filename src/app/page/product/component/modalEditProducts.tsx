@@ -24,10 +24,11 @@ export default function ModalEditProducts({ isOpen, onClose, product }: ModalEdi
 
   useEffect(() => {
     if (product) {
+      const lastStock = product.stocks?.at(-1);
       setFormData({
         name: product.name || "",
         price: product.price?.toString() || "",
-        stocks: product.stocks?.[0]?.total?.toString() || "0",
+        stocks: lastStock?.total?.toString() || "0",
         categoryId: product.categoryId?.toString() || "1",
         imgUrl: product.imgUrl || "coba",
       });
