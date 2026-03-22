@@ -54,17 +54,17 @@ export default function ProductPage() {
     }
   };
 
-  if (isAuthLoading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center gap-4">
-        <div className="relative w-16 h-16">
-          <div className="absolute inset-0 rounded-full border-4 border-slate-800"></div>
-          <div className="absolute inset-0 rounded-full border-4 border-t-indigo-500 animate-spin"></div>
-        </div>
-        <p className="text-slate-400 font-medium animate-pulse">Authenticating...</p>
-      </div>
-    );
-  }
+  // if (isAuthLoading) {
+  //   return (
+  //     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center gap-4">
+  //       <div className="relative w-16 h-16">
+  //         <div className="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+  //         <div className="absolute inset-0 rounded-full border-4 border-t-indigo-500 animate-spin"></div>
+  //       </div>
+  //       <p className="text-slate-400 font-medium animate-pulse">Authenticating...</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="min-h-screen bg-slate-950 text-white flex">

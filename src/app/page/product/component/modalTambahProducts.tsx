@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useCreateProduct } from "@/app/hook/useProduct";
 import { useQueryClient } from "@tanstack/react-query";
+import { useGetCategory, Category } from "@/app/hook/useCategory";
 
 interface ModalTambahProps {
   isOpen: boolean;
@@ -12,6 +13,8 @@ interface ModalTambahProps {
 export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProps) {
   const queryClient = useQueryClient();
   const { mutate: createProduct, isPending } = useCreateProduct();
+  const { data: categories, isLoading, error } = useGetCategory();
+
   
   const [formData, setFormData] = useState({
     name: "",
@@ -32,14 +35,10 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
       ...formData,
       price: Number(formData.price),
       categoryId: Number(formData.categoryId),
-      // The API seems to expect stock inside a 'stocks' array or similar 
-      // based on the response you showed earlier, but your 'create' method 
-      // sends the raw object. I'll pass it as 'stock' and assume the BE handles it.
-      // If the BE expects the exactly same structure as the response:
-      // stocks: [{ total: Number(formData.stock) }]
-      // But standard CRUD usually takes a flat object.
-      stocks: Number(formData.stocks)   
+      stocks: Number(formData.stocks),
+      stockType: "IN"
     };
+
 
     createProduct(payload, {
       onSuccess: () => {
@@ -121,9 +120,11 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
             >
-              <option value="1">Minuman</option>
-              <option value="2">Makanan</option>
-              <option value="3">Snack</option>
+              {categories?.map((category: Category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
 

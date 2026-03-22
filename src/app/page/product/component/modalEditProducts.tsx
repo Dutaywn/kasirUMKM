@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useUpdateProduct } from "@/app/hook/useProduct";
 import { useQueryClient } from "@tanstack/react-query";
+import { useGetCategory, Category } from "@/app/hook/useCategory";
 
 interface ModalEditProps {
   isOpen: boolean;
@@ -13,6 +14,8 @@ interface ModalEditProps {
 export default function ModalEditProducts({ isOpen, onClose, product }: ModalEditProps) {
   const queryClient = useQueryClient();
   const { mutate: updateProduct, isPending } = useUpdateProduct();
+  const { data: categories } = useGetCategory();
+
   
   const [formData, setFormData] = useState({
     name: "",
@@ -22,17 +25,18 @@ export default function ModalEditProducts({ isOpen, onClose, product }: ModalEdi
     imgUrl: "coba",
   });
 
+
   useEffect(() => {
     if (product) {
-      const lastStock = product.stocks?.at(-1);
       setFormData({
         name: product.name || "",
         price: product.price?.toString() || "",
-        stocks: lastStock?.total?.toString() || "0",
+        stocks: product.stocks?.toString() || "0",
         categoryId: product.categoryId?.toString() || "1",
         imgUrl: product.imgUrl || "coba",
       });
     }
+
   }, [product]);
 
   if (!isOpen || !product) return null;
@@ -46,7 +50,9 @@ export default function ModalEditProducts({ isOpen, onClose, product }: ModalEdi
       categoryId: Number(formData.categoryId),
       imgUrl: formData.imgUrl,
       stocks: Number(formData.stocks),
+      stockType: "ADJUSTMENT",
     };
+
 
     updateProduct(
       { id: product.id, data: payload },
@@ -117,11 +123,14 @@ export default function ModalEditProducts({ isOpen, onClose, product }: ModalEdi
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
             >
-              <option value="1">Minuman</option>
-              <option value="2">Makanan</option>
-              <option value="3">Snack</option>
+              {categories?.map((category: Category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
+
 
           <div className="space-y-1">
             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Image URL</label>

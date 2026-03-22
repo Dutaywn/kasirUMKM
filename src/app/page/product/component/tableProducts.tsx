@@ -1,6 +1,4 @@
-"use client";
-
-import React from "react";
+import React, { useMemo, useState } from "react";
 
 interface ProductTableProps {
   products: any[];
@@ -8,24 +6,84 @@ interface ProductTableProps {
   onDelete: (id: string) => void;
 }
 
+type SortField = "name" | "price" | "stocks" | null;
+type SortOrder = "asc" | "desc";
+
 export default function TableProducts({ products, onEdit, onDelete }: ProductTableProps) {
+  const [sortField, setSortField] = useState<SortField>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const sortedProducts = useMemo(() => {
+    if (!sortField) return products;
+
+    return [...products].sort((a, b) => {
+      let aVal = a[sortField];
+      let bVal = b[sortField];
+
+      // Handle strings (name) and numbers (price, stocks)
+      if (typeof aVal === "string") {
+        return sortOrder === "asc" 
+          ? aVal.localeCompare(bVal) 
+          : bVal.localeCompare(aVal);
+      } else {
+        return sortOrder === "asc" ? aVal - bVal : bVal - aVal;
+      }
+    });
+  }, [products, sortField, sortOrder]);
+
+  const SortIcon = ({ field }: { field: SortField }) => {
+    if (sortField !== field) return <span className="ml-1 text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity">⇅</span>;
+    return <span className="ml-1 text-indigo-400">{sortOrder === "asc" ? "↑" : "↓"}</span>;
+  };
+
   return (
     <div className="overflow-x-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-slate-800 bg-slate-800/50">
-            <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Product</th>
+            <th 
+              className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400 cursor-pointer group"
+              onClick={() => handleSort("name")}
+            >
+              <div className="flex items-center">
+                Product <SortIcon field="name" />
+              </div>
+            </th>
             <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Category</th>
-            <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Price</th>
-            <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400">Stock</th>
+            <th 
+              className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400 cursor-pointer group"
+              onClick={() => handleSort("price")}
+            >
+              <div className="flex items-center">
+                Price <SortIcon field="price" />
+              </div>
+            </th>
+            <th 
+              className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400 cursor-pointer group"
+              onClick={() => handleSort("stocks")}
+            >
+              <div className="flex items-center">
+                Stock <SortIcon field="stocks" />
+              </div>
+            </th>
             <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-400 text-right">Actions</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-800">
-          {products.map((product) => {
-            const lastStock = product.stocks?.at(-1);
-            const stockCount = lastStock?.total ?? 0;
+          {sortedProducts.map((product) => {
+            const stockCount = product.stocks ?? 0;
             return (
+
+
               <tr key={product.id} className="hover:bg-slate-800/30 transition-colors group">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-4">

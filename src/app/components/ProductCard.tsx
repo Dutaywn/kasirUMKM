@@ -9,7 +9,8 @@ import { addToCart } from "@/redux/cartSlice";
 export default function ProductCard({ product, onEditStock }: { product: any; onEditStock?: (product: any) => void }) {
   // Safe extraction based on your API response
   const categoryName = product.category?.name || "General";
-  const lastStock = product.stocks.at(-1);
+  const currentStock = product.stocks ?? 0;
+  const latestStockRecord = product.stockId?.at(-1);
 
   const dispatch = useDispatch();
 
@@ -20,7 +21,7 @@ export default function ProductCard({ product, onEditStock }: { product: any; on
       name: product.name,
       price: product.price,
       imgUrl: product.imgUrl,
-      stockID: lastStock.id
+      stockID: latestStockRecord?.id || 0
     }));
   };
 
@@ -38,14 +39,15 @@ export default function ProductCard({ product, onEditStock }: { product: any; on
           <div className="flex flex-col items-end">
             <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-0.5">Inventory</span>
             <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black border ${
-              lastStock.total <= 5 
+              currentStock <= 5 
                 ? "text-rose-400 bg-rose-400/10 border-rose-400/20" 
                 : "text-emerald-400 bg-emerald-400/10 border-emerald-400/20"
             }`}>
-              <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${lastStock.total <= 5 ? "bg-rose-400" : "bg-emerald-400"}`}></div>
-              {lastStock.total} Units
+              <div className={`w-1.5 h-1.5 rounded-full animate-pulse ${currentStock <= 5 ? "bg-rose-400" : "bg-emerald-400"}`}></div>
+              {currentStock} Units
             </div>
           </div>
+
           
           <div className="flex items-center gap-2">
             <button 
