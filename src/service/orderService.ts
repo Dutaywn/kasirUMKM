@@ -28,4 +28,40 @@ export const orderService = {
 
     return response.json();
   },
+
+  getAll : async () => {
+    const token = authService.getToken();
+    const response = await fetch(`${BASE_URL}/orders`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Gagal mendapatkan pesanan");
+    }
+
+    return response.json();
+  },
+
+  getById : async (id: string) => {
+    const token = authService.getToken();
+    const response = await fetch(`${BASE_URL}/orders/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Gagal mendapatkan pesanan");
+    }
+
+    return response.json();
+  },
 };

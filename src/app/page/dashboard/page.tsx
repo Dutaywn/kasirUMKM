@@ -8,7 +8,9 @@ import ProductCard from "@/app/components/ProductCard";
 import SideDrawer from "@/app/components/sideDrawer";
 import CartBottom from "@/app/components/CartBottom";
 import { useGetProducts, useUpdateProduct } from "@/app/hook/useProduct";
+import { useGetCategory } from "@/app/hook/useCategory";
 import { useQueryClient } from "@tanstack/react-query";
+import BottomNavBar from "@/app/components/bottomNavBar";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -16,16 +18,20 @@ export default function DashboardPage() {
   const [user, setUser] = useState<any>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
+  // Filter states
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [sortBy, setSortBy] = useState<string>("newest");
+
   // Drawer states
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [newStock, setNewStock] = useState<number>(0);
-  const [sortBy, setSortBy] = useState<string>("newest");
   const [isUpdating, setIsUpdating] = useState(false);
 
 
   // Hook TanStack Query
   const { data: products, isLoading: isProductsLoading, isError, error } = useGetProducts();
+  const { data: categories } = useGetCategory();
   const updateProduct = useUpdateProduct();
 
   useEffect(() => {
@@ -74,9 +80,16 @@ export default function DashboardPage() {
     );
   };
 
-  const sortedProducts = useMemo(() => {
+  const filteredAndSortedProducts = useMemo(() => {
     if (!products) return [];
-    const items = [...products];
+    
+    // 1. Filter by category
+    let items = [...products];
+    if (selectedCategoryId !== null) {
+      items = items.filter(p => p.categoryId === selectedCategoryId);
+    }
+
+    // 2. Sort
     switch (sortBy) {
       case "name":
         return items.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
@@ -90,7 +103,7 @@ export default function DashboardPage() {
       default:
         return items.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
-  }, [products, sortBy]);
+  }, [products, sortBy, selectedCategoryId]);
 
   // if (isAuthLoading) {
   //   return (
@@ -146,8 +159,53 @@ export default function DashboardPage() {
           </div>
         </header>
 
+        {/* Category Filter Slide */}
+        <section className="relative">
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h2 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-500/80 flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+              Kategori Produk
+            </h2>
+            {selectedCategoryId !== null && (
+              <button 
+                onClick={() => setSelectedCategoryId(null)}
+                className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1 group"
+              >
+                <svg className="w-3 h-3 group-hover:rotate-90 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
+                Reset Filter
+              </button>
+            )}
+          </div>
+          
+          <div className="flex gap-3 overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+            <button
+              onClick={() => setSelectedCategoryId(null)}
+              className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                selectedCategoryId === null
+                  ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
+                  : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
+              }`}
+            >
+              Semua Produk
+            </button>
+            {categories?.map((cat: any) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategoryId(cat.id)}
+                className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                  selectedCategoryId === cat.id
+                    ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
+                    : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </section>
+
         {/* Product Grid Section */}
-        <section className="space-y-6">
+        <section className="space-y-8">
 
             {isProductsLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -180,22 +238,27 @@ export default function DashboardPage() {
                   Try Again
                 </button>
             </div>
-            ) : sortedProducts?.length === 0 ? (
-            <div className="bg-slate-900/50 border border-dashed border-slate-800 p-20 rounded-3xl flex flex-col items-center justify-center text-center space-y-4">
-                <div className="w-20 h-20 bg-slate-800 rounded-2xl flex items-center justify-center text-slate-500">
-                    <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+            ) : filteredAndSortedProducts?.length === 0 ? (
+            <div className="bg-slate-900/50 border-2 border-dashed border-slate-800 p-20 rounded-[3rem] flex flex-col items-center justify-center text-center space-y-6">
+                <div className="w-24 h-24 bg-slate-800/50 rounded-3xl flex items-center justify-center text-slate-600 border border-slate-700/50">
+                    <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 </div>
-                <div>
-                   <h3 className="text-xl font-bold">No Products Found</h3>
-                   <p className="text-slate-500 text-sm max-w-xs mx-auto">Start adding products to your inventory to see them listed here.</p>
+                <div className="space-y-2">
+                   <h3 className="text-2xl font-black italic tracking-tight text-white uppercase">Kosong Melompong</h3>
+                   <p className="text-slate-500 text-sm font-medium max-w-xs mx-auto italic">Belum ada produk di kategori ini. Silahkan pilih kategori lain atau tambah produk baru.</p>
                 </div>
-                <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-3 rounded-2xl font-bold transition-all shadow-xl shadow-indigo-600/20 active:scale-95">
-                   Add First Product
-                </button>
+                {selectedCategoryId !== null && (
+                  <button 
+                    onClick={() => setSelectedCategoryId(null)}
+                    className="text-indigo-400 font-black text-xs uppercase tracking-widest hover:text-indigo-300 transition-colors underline underline-offset-8"
+                  >
+                    Lihat Semua Produk
+                  </button>
+                )}
             </div>
             ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {sortedProducts?.map((product: any) => (
+                {filteredAndSortedProducts?.map((product: any) => (
                     <ProductCard key={product.id} product={product} onEditStock={handleEditStock} />
                 ))}
             </div>
@@ -290,13 +353,7 @@ export default function DashboardPage() {
       <CartBottom />
 
       {/* Mobile Nav Overlay (Optional) */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 p-4 flex justify-around items-center z-50 backdrop-blur-md bg-opacity-80">
-          <button className="p-2 text-indigo-400"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg></button>
-          <button className="p-2 text-slate-500"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></button>
-          <button className="p-2 bg-indigo-600 rounded-full text-white -mt-10 border-4 border-slate-950 shadow-xl"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/></svg></button>
-          <button className="p-2 text-slate-500"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zM9 19v-6a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg></button>
-          <button className="p-2 text-slate-500"><svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
-      </div>
+      <BottomNavBar />
     </div>
   );
 }

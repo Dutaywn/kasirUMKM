@@ -9,6 +9,7 @@ import ModalTambahProducts from "./component/modalTambahProducts";
 import ModalEditProducts from "./component/modalEditProducts";
 import { useGetProducts, useDeleteProduct } from "@/app/hook/useProduct";
 import { useQueryClient } from "@tanstack/react-query";
+import BottomNavBar from "@/app/components/bottomNavBar";
 
 export default function ProductPage() {
   const router = useRouter();
@@ -133,6 +134,7 @@ export default function ProductPage() {
         />
 
       </main>
+      <BottomNavBar />
     </div>
   );
 }

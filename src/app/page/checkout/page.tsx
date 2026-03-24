@@ -58,34 +58,15 @@ export default function CheckoutPage() {
     };
 
     createOrder(orderData, {
-      onSuccess: () => {
+      onSuccess: (response) => {
         dispatch(clearCart());
-        // Success state is handled by isSuccess
+        const orderId = response.data?.id || response.id;
+        router.push(`/page/orders/${orderId}/nota`);
       }
     });
   };
 
-  if (isSuccess) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
-        <div className="max-w-md w-full text-center space-y-6 animate-in zoom-in-95 duration-500">
-          <div className="w-24 h-24 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-emerald-500/30">
-            <CheckCircle2 size={48} className="text-emerald-500 animate-bounce" />
-          </div>
-          <h1 className="text-4xl font-black text-white italic tracking-tight">PESANAN BERHASIL!</h1>
-          <p className="text-slate-400 text-lg">Terima kasih, pesanan Anda telah kami terima dan sedang diproses.</p>
-          <button 
-            onClick={() => router.push("/page/dashboard")}
-            className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-5 rounded-3xl font-black transition-all shadow-2xl shadow-indigo-600/30 text-lg active:scale-95"
-          >
-            KEMBALI KE DASHBOARD
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (cartItems.length === 0 && !isSuccess) {
+  if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
         <div className="text-center space-y-4">
