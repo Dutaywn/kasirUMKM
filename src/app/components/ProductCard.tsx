@@ -26,7 +26,7 @@ export default function ProductCard({ product, onEditStock }: { product: any; on
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-indigo-500/50 transition-all duration-300 group hover:shadow-2xl hover:shadow-indigo-500/10">
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-4 sm:p-6 hover:border-indigo-500/50 transition-all duration-300 group hover:shadow-2xl hover:shadow-indigo-500/10">
       <div className="flex justify-between items-start mb-6">
         <div className="w-14 h-14 bg-slate-800/50 rounded-2xl flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500 shadow-inner overflow-hidden border border-slate-700/50 group-hover:border-indigo-500/50">
           {product.imgUrl && product.imgUrl !== "coba" ? (

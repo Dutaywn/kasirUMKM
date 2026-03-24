@@ -181,7 +181,7 @@ export default function DashboardPage() {
             <div className="flex gap-3 overflow-x-auto pb-6 scrollbar-hide">
               <button
                 onClick={() => setSelectedCategoryId(null)}
-                className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                className={`flex-shrink-0 px-4 lg:px-6 py-3 lg:py-4 rounded-2xl lg:rounded-3xl font-black text-[10px] lg:text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
                   selectedCategoryId === null
                     ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
                     : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
@@ -193,7 +193,7 @@ export default function DashboardPage() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategoryId(cat.id)}
-                  className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                  className={`flex-shrink-0 px-4 lg:px-6 py-3 lg:py-4 rounded-2xl lg:rounded-3xl font-black text-[10px] lg:text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
                     selectedCategoryId === cat.id
                       ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
                       : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
