@@ -13,7 +13,9 @@ export default function BottomNavBar() {
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                     </svg>
-                    <span className="text-xs">{item.name}</span>
+                    <div className="flex flex-col items-center">
+                        <span className="text-xs ">{item.name}</span>
+                    </div>
                 </Link>
             ))}
         </div>
