@@ -11,12 +11,12 @@ export default function OrdersPage() {
   const { data: orders, isLoading, error } = useGetOrder();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
+    <div className="min-h-screen bg-slate-950 text-white flex overflow-x-hidden">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20">
+      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20 max-w-full overflow-x-hidden">
         <div className="max-w-3xl mx-auto">
           <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div className="space-y-1">

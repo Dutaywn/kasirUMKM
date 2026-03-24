@@ -68,35 +68,34 @@ export default function ProductPage() {
   // }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
+    <div className="min-h-screen bg-slate-950 text-white flex overflow-x-hidden">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20">
+      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20 max-w-full overflow-x-hidden">
         
         {/* Header Section */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-1">
-            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-300 to-slate-500 bg-clip-text text-transparent">
-              Product Management
+            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-300 to-slate-500 bg-clip-text text-transparent italic">
+              PRODUCT MANAGEMENT
             </h1>
             <p className="text-slate-400 text-sm font-medium">
-              Create, update, and manage your inventory items.
+              Update and organize your inventory.
             </p>
           </div>
-          <div className="flex items-center gap-3">
-             <button 
-               onClick={() => setIsModalTambahOpen(true)}
-               className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 rounded-xl font-semibold transition-all shadow-lg shadow-indigo-600/20 active:scale-95 text-sm"
-             >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                Tambah Produk
-             </button>
-          </div>
-        </header>
+          <button
+            onClick={() => setIsModalTambahOpen(true)}
+            className="group relative px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all shadow-xl shadow-indigo-600/20 active:scale-95 flex items-center justify-center gap-3 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
+            </svg>
+            Add New Product
+          </button>
+        </div>
 
         {/* Table Section */}
         <section>

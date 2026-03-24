@@ -79,7 +79,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-slate-950 text-slate-200 selection:bg-indigo-500/30 overflow-x-hidden">
       {/* Header */}
       <div className="border-b border-slate-900 bg-slate-950/50 backdrop-blur-md sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -95,7 +95,7 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <main className="max-w-5xl mx-auto px-6 py-12">
+      <main className="max-w-5xl mx-auto px-6 py-12 overflow-x-hidden max-w-full">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           
           {/* Left: Summary and Items */}

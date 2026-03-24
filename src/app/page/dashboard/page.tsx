@@ -118,12 +118,12 @@ export default function DashboardPage() {
   // }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex">
+    <div className="min-h-screen bg-slate-950 text-white flex overflow-x-hidden">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20">
+      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20 max-w-full overflow-x-hidden">
         
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -160,7 +160,7 @@ export default function DashboardPage() {
         </header>
 
         {/* Category Filter Slide */}
-        <section className="relative">
+        <section className="relative overflow-visible">
           <div className="flex items-center justify-between gap-4 mb-4">
             <h2 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-500/80 flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
@@ -177,30 +177,32 @@ export default function DashboardPage() {
             )}
           </div>
           
-          <div className="flex gap-3 overflow-x-auto pb-6 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
-            <button
-              onClick={() => setSelectedCategoryId(null)}
-              className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
-                selectedCategoryId === null
-                  ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
-                  : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
-              }`}
-            >
-              Semua Produk
-            </button>
-            {categories?.map((cat: any) => (
+          <div className="-mx-4 px-4 sm:mx-0 sm:px-0">
+            <div className="flex gap-3 overflow-x-auto pb-6 scrollbar-hide">
               <button
-                key={cat.id}
-                onClick={() => setSelectedCategoryId(cat.id)}
+                onClick={() => setSelectedCategoryId(null)}
                 className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
-                  selectedCategoryId === cat.id
+                  selectedCategoryId === null
                     ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
                     : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
                 }`}
               >
-                {cat.name}
+                Semua Produk
               </button>
-            ))}
+              {categories?.map((cat: any) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategoryId(cat.id)}
+                  className={`flex-shrink-0 px-6 py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                    selectedCategoryId === cat.id
+                      ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
+                      : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
           </div>
         </section>
 
