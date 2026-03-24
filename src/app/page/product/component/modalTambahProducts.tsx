@@ -55,8 +55,8 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
-        <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-800/20">
+      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
+        <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-800/20 flex-shrink-0">
           <h2 className="text-xl font-bold text-white">Add New Product</h2>
           <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -65,7 +65,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4 overflow-y-auto">
           <div className="space-y-1">
             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Product Name</label>
             <input

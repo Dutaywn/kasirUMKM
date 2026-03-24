@@ -18,12 +18,12 @@ export default function CartBottom() {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom-full duration-500">
+    <div className="fixed bottom-20 lg:bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom-full duration-500">
       {/* Gradient Overlay for smooth transition */}
       <div className="absolute top-0 left-0 right-0 h-12 -translate-y-full bg-gradient-to-t from-slate-950 to-transparent pointer-events-none" />
 
       <div className="bg-slate-900 shadow-[0_-10px_40_rgba(0,0,0,0.5)] border-t border-slate-800 backdrop-blur-xl bg-opacity-95">
-        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 py-4 lg:py-8">
           <div className="flex flex-col lg:flex-row gap-8">
             
             {/* Left Section: Item List (Vertical Stack) */}

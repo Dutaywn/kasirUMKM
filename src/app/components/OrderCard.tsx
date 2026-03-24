@@ -87,7 +87,7 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
         ))}
       </div>
 
-      <div className="pt-5 border-t border-slate-800/50 flex justify-between items-center">
+      <div className="pt-5 border-t border-slate-800/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50 shadow-inner">
@@ -103,7 +103,7 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
           </Link>
         </div>
 
-        <div className="text-right">
+        <div className="text-left sm:text-right w-full sm:w-auto">
           <p className="text-[10px] uppercase font-black text-slate-500 tracking-tighter mb-0.5">Total Amount</p>
           <p className="text-2xl font-black bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent italic tabular-nums">
             Rp {order.totalAmount.toLocaleString("id-ID")}

@@ -96,10 +96,10 @@ export default function CheckoutPage() {
       </div>
 
       <main className="max-w-5xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           
           {/* Left: Summary and Items */}
-          <div className="lg:col-span-7 space-y-10">
+          <div className="md:col-span-12 lg:col-span-7 space-y-10">
             <section>
               <h2 className="text-sm uppercase tracking-[0.3em] font-black text-indigo-500 mb-6 flex items-center gap-2">
                 <Package size={16} />
@@ -108,30 +108,30 @@ export default function CheckoutPage() {
               <div className="bg-slate-900/50 border border-slate-800/50 rounded-[2.5rem] overflow-hidden">
                 <div className="divide-y divide-slate-800/50">
                   {cartItems.map((item) => (
-                    <div key={item.id} className="p-6 flex items-center justify-between hover:bg-slate-800/20 transition-colors">
+                    <div key={item.id} className="p-4 sm:p-6 flex items-center justify-between hover:bg-slate-800/20 transition-colors">
                       <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-slate-800 rounded-3xl flex items-center justify-center text-slate-500 border border-slate-700 overflow-hidden shadow-inner">
+                        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-slate-800 rounded-2xl sm:rounded-3xl flex items-center justify-center text-slate-500 border border-slate-700 overflow-hidden shadow-inner flex-shrink-0">
                            {item.imgUrl && item.imgUrl !== "coba" ? (
                             <img src={item.imgUrl} alt={item.name} className="w-full h-full object-cover" />
                           ) : (
-                            <Package size={24} />
+                            <Package size={20} />
                           )}
                         </div>
-                        <div>
-                          <h4 className="font-bold text-white text-lg">{item.name}</h4>
-                          <p className="text-slate-500 text-sm font-bold">{item.quantity} x Rp {item.price.toLocaleString()}</p>
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-white text-base sm:text-lg truncate">{item.name}</h4>
+                          <p className="text-slate-500 text-xs sm:text-sm font-bold">{item.quantity} x Rp {item.price.toLocaleString()}</p>
                         </div>
                       </div>
-                      <p className="text-white font-black text-lg">
+                      <p className="text-white font-black text-base sm:text-lg ml-4">
                         Rp {(item.price * item.quantity).toLocaleString()}
                       </p>
                     </div>
                   ))}
                 </div>
-                <div className="bg-indigo-600/5 p-8 border-t border-slate-800/50">
+                <div className="bg-indigo-600/5 p-6 sm:p-8 border-t border-slate-800/50">
                    <div className="flex justify-between items-center">
-                    <span className="text-slate-400 font-bold">Subtotal ({totalItems} Items)</span>
-                    <span className="text-white font-black text-2xl">Rp {totalPrice.toLocaleString()}</span>
+                    <span className="text-slate-400 font-bold text-sm sm:text-base">Subtotal ({totalItems} Items)</span>
+                    <span className="text-white font-black text-xl sm:text-2xl">Rp {totalPrice.toLocaleString()}</span>
                    </div>
                 </div>
               </div>
@@ -139,13 +139,13 @@ export default function CheckoutPage() {
           </div>
 
           {/* Right: Payment & Confirmation */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="md:col-span-12 lg:col-span-5 space-y-8">
             <section>
               <h2 className="text-sm uppercase tracking-[0.3em] font-black text-indigo-500 mb-6 flex items-center gap-2">
                 <CreditCard size={16} />
                 METODE PEMBAYARAN
               </h2>
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-4">
                 {[
                   { id: "CASH", name: "Tunai / Cash", icon: Banknote, color: "emerald" },
                   { id: "QRIS", name: "QRIS", icon: QrCode, color: "indigo" },
@@ -154,27 +154,27 @@ export default function CheckoutPage() {
                   <button
                     key={method.id}
                     onClick={() => setPaymentMethod(method.id as PaymentMethod)}
-                    className={`w-full p-6 rounded-[2rem] border-2 transition-all flex items-center justify-between group ${
+                    className={`w-full p-4 sm:p-6 rounded-[1.5rem] sm:rounded-[2rem] border-2 transition-all flex flex-row lg:flex-row items-center justify-between group ${
                       paymentMethod === method.id 
                         ? `bg-${method.color}-500/10 border-${method.color}-500 shadow-lg shadow-${method.color}-500/10` 
                         : "bg-slate-900/50 border-slate-800 hover:border-slate-700"
                     }`}
                   >
-                    <div className="flex items-center gap-5">
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${
+                    <div className="flex items-center gap-3 sm:gap-5">
+                      <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center transition-colors ${
                         paymentMethod === method.id 
                           ? `bg-${method.color}-500 text-white` 
                           : "bg-slate-800 text-slate-500 group-hover:text-slate-300"
                       }`}>
-                        <method.icon size={24} />
+                        <method.icon size={20} className="sm:w-6 sm:h-6" />
                       </div>
-                      <span className={`font-black tracking-tight text-lg ${
+                      <span className={`font-black tracking-tight text-sm sm:text-lg ${
                         paymentMethod === method.id ? "text-white" : "text-slate-400"
                       }`}>{method.name}</span>
                     </div>
                     {paymentMethod === method.id && (
-                      <div className={`w-6 h-6 rounded-full bg-${method.color}-500 flex items-center justify-center text-white animate-in zoom-in-50`}>
-                        <CheckCircle2 size={14} strokeWidth={4} />
+                      <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-${method.color}-500 flex items-center justify-center text-white animate-in zoom-in-50 flex-shrink-0`}>
+                        <CheckCircle2 size={12} strokeWidth={4} />
                       </div>
                     )}
                   </button>
