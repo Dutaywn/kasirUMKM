@@ -118,7 +118,7 @@ export default function DashboardPage() {
   // }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex overflow-x-hidden">
+    <div className="min-h-screen bg-surface text-on-surface flex overflow-x-hidden font-body">
       {/* Sidebar */}
       <Sidebar />
 
@@ -128,21 +128,21 @@ export default function DashboardPage() {
         {/* Header Section */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-1">
-            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-300 to-slate-500 bg-clip-text text-transparent italic">
+            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent italic">
               KASIR UMKM HEBAT
             </h1>
-            <p className="text-slate-400 text-sm font-medium">
+            <p className="text-slate-500 text-sm font-medium">
               Manage and sell your premium products.
             </p>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="relative group">
-              <span className="absolute -top-2 left-3 px-2 bg-slate-950 text-[10px] font-bold text-slate-500 uppercase tracking-tighter z-10">Sort By</span>
+              <span className="absolute -top-2 left-3 px-2 bg-surface text-[10px] font-bold text-primary uppercase tracking-tighter z-10">Sort By</span>
               <select 
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-slate-900 border border-slate-800 text-white text-sm font-bold rounded-2xl px-5 py-3.5 pr-10 focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer shadow-xl shadow-indigo-600/5 min-w-[180px]"
+                className="bg-surface border border-outline-variant/50 text-on-surface text-sm font-bold rounded-full px-5 py-3 pr-10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer shadow-sm min-w-[180px]"
               >
                 <option value="newest">Terbaru</option>
                 <option value="name">Nama (A-Z)</option>
@@ -159,17 +159,17 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* Category Filter Slide */}
-        <section className="relative overflow-visible">
-          <div className="flex items-center justify-between gap-4 mb-4">
-            <h2 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-500/80 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+        {/* Category Filter Slide - Editorial Tabs */}
+        <section className="relative overflow-visible z-10 border-b border-outline-variant/20 mb-6">
+          <div className="flex items-center justify-between gap-4 mb-2">
+            <h2 className="text-xs font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               Kategori Produk
             </h2>
             {selectedCategoryId !== null && (
               <button 
                 onClick={() => setSelectedCategoryId(null)}
-                className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-indigo-400 transition-colors flex items-center gap-1 group"
+                className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-error transition-colors flex items-center gap-1 group"
               >
                 <svg className="w-3 h-3 group-hover:rotate-90 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
                 Reset Filter
@@ -177,14 +177,14 @@ export default function DashboardPage() {
             )}
           </div>
           
-          <div className="-mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="flex gap-3 overflow-x-auto pb-6 scrollbar-hide">
+          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 mt-4">
+            <div className="flex items-center gap-8 overflow-x-auto hide-scrollbar pb-0">
               <button
                 onClick={() => setSelectedCategoryId(null)}
-                className={`flex-shrink-0 px-4 lg:px-6 py-3 lg:py-4 rounded-2xl lg:rounded-3xl font-black text-[10px] lg:text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                className={`pb-2 whitespace-nowrap px-1 transition-colors ${
                   selectedCategoryId === null
-                    ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
-                    : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
+                    ? "text-primary font-bold border-b-2 border-primary"
+                    : "text-slate-500 font-medium hover:text-primary"
                 }`}
               >
                 Semua Produk
@@ -193,10 +193,10 @@ export default function DashboardPage() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategoryId(cat.id)}
-                  className={`flex-shrink-0 px-4 lg:px-6 py-3 lg:py-4 rounded-2xl lg:rounded-3xl font-black text-[10px] lg:text-[11px] uppercase tracking-widest transition-all duration-300 border-2 ${
+                  className={`pb-2 whitespace-nowrap px-1 transition-colors ${
                     selectedCategoryId === cat.id
-                      ? "bg-indigo-600 border-indigo-500 text-white shadow-xl shadow-indigo-600/20 active:scale-95"
-                      : "bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300"
+                      ? "text-primary font-bold border-b-2 border-primary"
+                      : "text-slate-500 font-medium hover:text-primary"
                   }`}
                 >
                   {cat.name}
@@ -212,49 +212,49 @@ export default function DashboardPage() {
             {isProductsLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[1,2,3,4,5,6,7,8].map(i => (
-                <div key={i} className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 h-64 animate-pulse space-y-4">
+                <div key={i} className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-5 h-64 animate-pulse space-y-4 shadow-sm">
                     <div className="flex justify-between">
-                        <div className="w-12 h-12 bg-slate-800 rounded-xl"></div>
-                        <div className="w-10 h-4 bg-slate-800 rounded"></div>
+                        <div className="w-12 h-12 bg-surface-container-high rounded-xl"></div>
+                        <div className="w-10 h-4 bg-surface-container-high rounded"></div>
                     </div>
-                    <div className="w-full h-6 bg-slate-800 rounded"></div>
-                    <div className="w-1/2 h-4 bg-slate-800 rounded"></div>
-                    <div className="pt-4 border-t border-slate-800 mt-4 flex justify-between items-center">
-                        <div className="w-20 h-6 bg-slate-800 rounded"></div>
-                        <div className="w-10 h-10 bg-slate-800 rounded-xl"></div>
+                    <div className="w-full h-6 bg-surface-container-high rounded"></div>
+                    <div className="w-1/2 h-4 bg-surface-container-high rounded"></div>
+                    <div className="pt-4 border-t border-outline-variant/20 mt-4 flex justify-between items-center">
+                        <div className="w-20 h-6 bg-surface-container-high rounded"></div>
+                        <div className="w-10 h-10 bg-surface-container-high rounded-full"></div>
                     </div>
                 </div>
                 ))}
             </div>
             ) : isError ? (
-            <div className="bg-rose-500/10 border border-rose-500/20 p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-3">
-                <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center text-rose-500 mb-2">
+            <div className="bg-error/10 border border-error/20 p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-3">
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-error shadow-sm mb-2">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                 </div>
-                <h3 className="text-xl font-bold text-rose-400">Failed to Load Products</h3>
-                <p className="text-slate-400 max-w-md">{(error as any)?.message || "Something went wrong while fetching your inventory. Please check your connection."}</p>
+                <h3 className="text-xl font-bold text-error">Failed to Load Products</h3>
+                <p className="text-slate-500 max-w-md">{(error as any)?.message || "Something went wrong while fetching your inventory. Please check your connection."}</p>
                 <button 
                   onClick={() => window.location.reload()}
-                  className="bg-rose-500 hover:bg-rose-400 text-white px-6 py-2 rounded-xl font-bold transition-all"
+                  className="bg-error hover:bg-error/90 text-white px-6 py-2 rounded-xl font-bold transition-all mt-2 shadow-sm"
                 >
                   Try Again
                 </button>
             </div>
             ) : filteredAndSortedProducts?.length === 0 ? (
-            <div className="bg-slate-900/50 border-2 border-dashed border-slate-800 p-20 rounded-[3rem] flex flex-col items-center justify-center text-center space-y-6">
-                <div className="w-24 h-24 bg-slate-800/50 rounded-3xl flex items-center justify-center text-slate-600 border border-slate-700/50">
+            <div className="bg-surface-container-high border-2 border-dashed border-outline-variant/30 p-20 rounded-[3rem] flex flex-col items-center justify-center text-center space-y-6">
+                <div className="w-24 h-24 bg-surface rounded-3xl flex items-center justify-center text-slate-400 border border-outline-variant/20 shadow-sm">
                     <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                 </div>
                 <div className="space-y-2">
-                   <h3 className="text-2xl font-black italic tracking-tight text-white uppercase">Kosong Melompong</h3>
-                   <p className="text-slate-500 text-sm font-medium max-w-xs mx-auto italic">Belum ada produk di kategori ini. Silahkan pilih kategori lain atau tambah produk baru.</p>
+                   <h3 className="text-2xl font-black tracking-tight text-on-surface">No Products Found</h3>
+                   <p className="text-slate-500 text-sm font-medium max-w-xs mx-auto">There are currently no products in this category.</p>
                 </div>
                 {selectedCategoryId !== null && (
                   <button 
                     onClick={() => setSelectedCategoryId(null)}
-                    className="text-indigo-400 font-black text-xs uppercase tracking-widest hover:text-indigo-300 transition-colors underline underline-offset-8"
+                    className="text-primary font-black text-xs uppercase tracking-widest hover:text-secondary transition-colors underline underline-offset-4"
                   >
-                    Lihat Semua Produk
+                    View All Products
                   </button>
                 )}
             </div>
@@ -278,12 +278,12 @@ export default function DashboardPage() {
         {selectedProduct && (
           <form onSubmit={handleUpdateStock} className="space-y-6">
             <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700">
-                <div className="w-16 h-16 bg-slate-800 rounded-xl flex-shrink-0 overflow-hidden">
+              <div className="flex items-center gap-4 p-4 bg-surface-container-high rounded-2xl border border-outline-variant/30">
+                <div className="w-16 h-16 bg-white rounded-xl flex-shrink-0 overflow-hidden shadow-sm">
                   {selectedProduct.imgUrl && selectedProduct.imgUrl !== "coba" ? (
                     <img src={selectedProduct.imgUrl} alt={selectedProduct.name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-500">
+                    <div className="w-full h-full flex items-center justify-center text-slate-400">
                       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                       </svg>
@@ -291,19 +291,19 @@ export default function DashboardPage() {
                   )}
                 </div>
                 <div>
-                  <h3 className="font-bold text-white">{selectedProduct.name}</h3>
-                  <p className="text-sm text-slate-400 capitalize">{selectedProduct.category?.name || "General"}</p>
+                  <h3 className="font-bold text-on-surface">{selectedProduct.name}</h3>
+                  <p className="text-sm text-slate-500 capitalize">{selectedProduct.category?.name || "General"}</p>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-400 ml-1">Update Stock</label>
+                <label className="text-sm font-semibold text-slate-500 ml-1">Update Stock</label>
                 <div className="relative group">
                   <input
                     type="number"
                     value={newStock}
                     onChange={(e) => setNewStock(Number(e.target.value))}
-                    className="w-full bg-slate-800 border-2 border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-indigo-500 transition-all text-xl font-bold"
+                    className="w-full bg-white border border-outline-variant/50 rounded-2xl px-5 py-4 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all text-xl font-bold shadow-sm"
                     placeholder="Masukkan jumlah stock"
                     min="0"
                     required
@@ -314,11 +314,11 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-indigo-500/5 border border-indigo-500/10 flex items-start gap-3">
-                <svg className="w-5 h-5 text-indigo-400 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="p-4 rounded-2xl bg-primary/5 border border-primary/20 flex items-start gap-3">
+                <svg className="w-5 h-5 text-primary mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-xs text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Perubahan stock akan langsung memperbarui inventaris Anda. Pastikan jumlah yang dimasukkan sudah sesuai dengan fisik barang.
                 </p>
               </div>
@@ -328,7 +328,7 @@ export default function DashboardPage() {
               <button
                 type="submit"
                 disabled={isUpdating}
-                className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-700 disabled:cursor-not-allowed text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-indigo-600/20 active:scale-[0.98] flex items-center justify-center gap-2"
+                className="w-full cta-gradient disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-2xl transition-all shadow-md hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
               >
                 {isUpdating ? (
                   <>
@@ -342,7 +342,7 @@ export default function DashboardPage() {
               <button
                 type="button"
                 onClick={() => setIsDrawerOpen(false)}
-                className="w-full bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white font-semibold py-3 rounded-2xl transition-all"
+                className="w-full bg-surface-container hover:bg-surface-container-high text-slate-500 hover:text-on-surface font-semibold py-3 rounded-2xl transition-all"
               >
                 Batal
               </button>

@@ -38,27 +38,27 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-8 space-y-6">
+    <div className="min-h-screen bg-surface flex items-center justify-center p-4 font-body">
+      <div className="w-full max-w-md bg-white border border-outline-variant/30 rounded-3xl shadow-lg p-8 space-y-6">
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold text-white tracking-tight">Create Account</h1>
-          <p className="text-slate-400">Join Kasir UMKM to manage your business efficiently</p>
+          <h1 className="text-4xl font-extrabold text-on-surface tracking-tight">Create Account</h1>
+          <p className="text-slate-500 font-medium">Join Kasir UMKM to manage your business efficiently</p>
         </div>
 
         {error && (
-          <div className="bg-rose-500/10 border border-rose-500/50 text-rose-500 px-4 py-3 rounded-lg text-sm">
+          <div className="bg-error/10 border border-error/20 text-error px-4 py-3 rounded-2xl text-sm font-bold">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-300">Username</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Username</label>
             <input
               name="userName"
               type="text"
               required
-              className="w-full bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+              className="w-full bg-white border border-outline-variant/50 text-on-surface px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
               placeholder="johndoe"
               value={formData.userName}
               onChange={handleChange}
@@ -66,12 +66,12 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-300">Email Address</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Email Address</label>
             <input
               name="email"
               type="email"
               required
-              className="w-full bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+              className="w-full bg-white border border-outline-variant/50 text-on-surface px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
               placeholder="email@example.com"
               value={formData.email}
               onChange={handleChange}
@@ -79,12 +79,12 @@ export default function RegisterPage() {
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm font-medium text-slate-300">Password</label>
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Password</label>
             <input
               name="password"
               type="password"
               required
-              className="w-full bg-slate-800 border border-slate-700 text-white px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+              className="w-full bg-white border border-outline-variant/50 text-on-surface px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all shadow-sm"
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
@@ -94,16 +94,16 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-lg shadow-blue-900/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full cta-gradient text-white font-bold py-4 rounded-2xl shadow-md active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed mt-4"
           >
             {loading ? "Creating Account..." : "Register"}
           </button>
         </form>
 
         <div className="text-center pt-2">
-          <p className="text-slate-400 text-sm">
+          <p className="text-slate-500 text-sm font-medium">
             Already have an account?{" "}
-            <Link href="/page/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+            <Link href="/page/login" className="text-primary hover:text-primary/80 font-bold transition-colors">
               Sign In
             </Link>
           </p>

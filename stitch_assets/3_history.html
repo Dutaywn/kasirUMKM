@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kasir UMKM - Transaction History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary-fixed-variant": "#723600",
+              "secondary-fixed": "#e9ddff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#fffbff",
+              "secondary-fixed-dim": "#d0bcff",
+              "surface-container-highest": "#e0e3e5",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "outline-variant": "#c2c6d6",
+              "surface-variant": "#e0e3e5",
+              "on-secondary-fixed-variant": "#5516be",
+              "surface": "#f7f9fb",
+              "inverse-on-surface": "#eff1f3",
+              "error": "#ba1a1a",
+              "surface-tint": "#005ac2",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#001a42",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed-variant": "#004395",
+              "on-tertiary-fixed": "#311400",
+              "primary-fixed": "#d8e2ff",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#424754",
+              "tertiary-fixed": "#ffdcc6",
+              "primary-container": "#2170e4",
+              "tertiary-container": "#b75b00",
+              "on-background": "#191c1e",
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#fffbff",
+              "on-primary": "#ffffff",
+              "surface-container-high": "#e6e8ea",
+              "tertiary-fixed-dim": "#ffb786",
+              "on-primary-container": "#fefcff",
+              "tertiary": "#924700",
+              "surface-container-lowest": "#ffffff",
+              "secondary-container": "#8455ef",
+              "inverse-primary": "#adc6ff",
+              "outline": "#727785",
+              "surface-container": "#eceef0",
+              "on-error": "#ffffff",
+              "primary": "#0058be",
+              "primary-fixed-dim": "#adc6ff",
+              "on-secondary-fixed": "#23005c",
+              "secondary": "#6b38d4",
+              "background": "#f7f9fb"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- SideNavBar (Predicted Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 bg-surface-container-low dark:bg-slate-900 flex flex-col py-6 px-4">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-bold tracking-tight text-primary dark:text-blue-400">Kasir UMKM</h1>
+<p class="text-[0.6875rem] font-bold uppercase tracking-wider text-outline">Premium POS</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Inactive: Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-blue-300 transition-colors hover:bg-white/80 dark:hover:bg-slate-800 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<!-- Inactive: Products -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-blue-300 transition-colors hover:bg-white/80 dark:hover:bg-slate-800 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-medium">Products</span>
+</a>
+<!-- Active: Order (Mapped to Transaction History) -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary dark:text-blue-400 font-bold border-l-4 border-primary bg-white/50 dark:bg-slate-800/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-medium">Order</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/20 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-primary transition-colors hover:bg-white/80 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-error hover:bg-error-container/20 transition-colors rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-medium">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar (Predicted Component) -->
+<header class="w-[calc(100%-16rem)] ml-auto sticky top-0 z-30 bg-surface/80 backdrop-blur-md flex justify-between items-center px-8 py-6">
+<div>
+<h2 class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Transaction History</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-highest/30 border-none rounded-full text-sm focus:ring-2 focus:ring-primary/20 w-64 transition-all" placeholder="Search invoices..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden bg-surface-container-high border-2 border-white shadow-sm">
+<img class="h-full w-full object-cover" data-alt="professional male business owner profile picture with clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_6XX1V9bbpB0F54RCo3vVVfgyGPW86lK33PmpDsxuejulA0HPRkc50IQI7CIPvcZCqe3rYS47rsgG4iXEsD65csveFGO8COFGRome0Ic2yZ0wx5gixgIW4aPfa0HheIhClKkqJ3moPxj3JPzvt6K9ioi73XCOvG8LRNPlj7GCTpv7MnaJe-vBgKjMJ23ZBnJ2sfW4Kcq1q1lXp-vouGwDzrpJKvNRmMiMr_CCD4jmIRX1VWnljMbIxoz1-Ero1dNd5Eg2xUHV"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8 min-h-screen">
+<div class="max-w-5xl mx-auto">
+<!-- Filters & Stats Row (Asymmetric Layout) -->
+<div class="grid grid-cols-12 gap-6 mb-10">
+<div class="col-span-8 flex gap-4">
+<div class="bg-surface-container-lowest p-1 rounded-full shadow-sm flex">
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full text-sm font-semibold">All Transactions</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary text-sm font-medium">Success</button>
+<button class="px-6 py-2 text-on-surface-variant hover:text-primary text-sm font-medium">Pending</button>
+</div>
+<button class="flex items-center gap-2 px-5 py-2 bg-surface-container-lowest text-on-surface-variant rounded-full shadow-sm text-sm font-medium hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="calendar_today">calendar_today</span>
+                        This Month
+                    </button>
+</div>
+<div class="col-span-4 bg-primary-container text-on-primary-container rounded-xl p-4 flex flex-col justify-center shadow-sm">
+<p class="text-[0.6875rem] font-bold uppercase tracking-wider opacity-80">Total Revenue (Monthly)</p>
+<p class="text-2xl font-bold">Rp 42.850.000</p>
+</div>
+</div>
+<!-- Transaction List -->
+<div class="space-y-6">
+<!-- Transaction Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_12px_32px_rgba(15,23,42,0.06)] hover:translate-y-[-2px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-primary font-bold text-lg">#INV-2023-0892</p>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                                24 Oct 2023, 14:20
+                            </div>
+</div>
+<span class="px-4 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[0.6875rem] font-bold uppercase">Success</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Espresso Coffee Beans (1kg) x 2</span>
+<span class="text-sm font-medium">Rp 320.000</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Paper Filter V60 (100pcs) x 1</span>
+<span class="text-sm font-medium">Rp 85.000</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Oat Milk Barista Edition (1L) x 3</span>
+<span class="text-sm font-medium">Rp 165.000</span>
+</div>
+</div>
+<div class="flex justify-between items-end pt-4 border-t border-surface-container-low">
+<div class="flex flex-col gap-1">
+<span class="text-[0.6875rem] font-bold uppercase text-outline tracking-wider">Payment Method</span>
+<div class="flex items-center gap-2 text-on-surface font-medium">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+                                Cash
+                            </div>
+</div>
+<div class="text-right">
+<span class="text-[0.6875rem] font-bold uppercase text-outline tracking-wider block mb-1">Total Amount</span>
+<span class="text-2xl font-bold text-primary">Rp 570.000</span>
+</div>
+</div>
+</div>
+<!-- Transaction Card 2 (Pending) -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_12px_32px_rgba(15,23,42,0.06)] hover:translate-y-[-2px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-primary font-bold text-lg">#INV-2023-0891</p>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                                24 Oct 2023, 13:45
+                            </div>
+</div>
+<span class="px-4 py-1 bg-error-container text-on-error-container rounded-full text-[0.6875rem] font-bold uppercase">Pending</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Artisan Ceramic Mug x 4</span>
+<span class="text-sm font-medium">Rp 480.000</span>
+</div>
+</div>
+<div class="flex justify-between items-end pt-4 border-t border-surface-container-low">
+<div class="flex flex-col gap-1">
+<span class="text-[0.6875rem] font-bold uppercase text-outline tracking-wider">Payment Method</span>
+<div class="flex items-center gap-2 text-on-surface font-medium">
+<span class="material-symbols-outlined text-lg" data-icon="description">description</span>
+                                Note / Credit
+                            </div>
+</div>
+<div class="text-right">
+<span class="text-[0.6875rem] font-bold uppercase text-outline tracking-wider block mb-1">Total Amount</span>
+<span class="text-2xl font-bold text-primary">Rp 480.000</span>
+</div>
+</div>
+</div>
+<!-- Transaction Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-[0px_12px_32px_rgba(15,23,42,0.06)] hover:translate-y-[-2px] transition-all duration-300">
+<div class="flex justify-between items-start mb-6">
+<div>
+<p class="text-primary font-bold text-lg">#INV-2023-0890</p>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+                                23 Oct 2023, 17:10
+                            </div>
+</div>
+<span class="px-4 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[0.6875rem] font-bold uppercase">Success</span>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Roasted Almonds (500g) x 1</span>
+<span class="text-sm font-medium">Rp 120.000</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Honey Process Beans x 1</span>
+<span class="text-sm font-medium">Rp 210.000</span>
+</div>
+</div>
+<div class="flex justify-between items-end pt-4 border-t border-surface-container-low">
+<div class="flex flex-col gap-1">
+<span class="text-[0.6875rem] font-bold uppercase text-outline tracking-wider">Payment Method</span>
+<div class="flex items-center gap-2 text-on-surface font-medium">
+<span class="material-symbols-outlined text-lg" data-icon="payments">payments</span>
+                                QRIS / Digital
+                            </div>
+</div>
+<div class="text-right">
+<span class="text-[0.6875rem] font-bold uppercase text-outline tracking-wider block mb-1">Total Amount</span>
+<span class="text-2xl font-bold text-primary">Rp 330.000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Empty State / Load More (Editorial Spacing) -->
+<div class="mt-12 flex justify-center">
+<button class="px-8 py-3 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant font-bold rounded-full transition-all flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+                    Load older transactions
+                </button>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Suppressed on Details, but kept for Contextual Transaction) -->
+<button class="fixed bottom-8 right-8 h-16 w-16 bg-gradient-to-br from-primary to-secondary text-on-primary rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center justify-center z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

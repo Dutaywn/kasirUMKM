@@ -11,7 +11,7 @@ export default function OrdersPage() {
   const { data: orders, isLoading, error } = useGetOrder();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex overflow-x-hidden">
+    <div className="min-h-screen bg-surface text-on-surface flex overflow-x-hidden font-body">
       {/* Sidebar */}
       <Sidebar />
 
@@ -21,12 +21,12 @@ export default function OrdersPage() {
           <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
             <div className="space-y-1">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-600/20 text-white">
+                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary shadow-sm">
                   <LucideListOrdered size={28} />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-black text-white tracking-tight">
-                    Transaction <span className="text-indigo-500 italic">History</span>
+                  <h1 className="text-3xl font-extrabold text-on-surface tracking-tight">
+                    Transaction <span className="text-secondary italic">History</span>
                   </h1>
                   <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mt-0.5">Manage and track your orders</p>
                 </div>
@@ -51,11 +51,11 @@ export default function OrdersPage() {
               <p className="text-slate-400 text-sm font-medium">{(error as Error).message}</p>
             </div>
           ) : orders?.length === 0 ? (
-            <div className="text-center py-32 bg-slate-900/50 rounded-[2.5rem] border border-dashed border-slate-800/50">
-              <div className="w-20 h-20 bg-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-slate-700/50 shadow-inner">
-                <LucideListOrdered size={36} className="text-slate-600" />
+            <div className="text-center py-32 bg-surface-container-high rounded-[2.5rem] border border-dashed border-outline-variant/30 shadow-sm">
+              <div className="w-20 h-20 bg-surface rounded-3xl flex items-center justify-center mx-auto mb-6 border border-outline-variant/20 shadow-sm">
+                <LucideListOrdered size={36} className="text-slate-400" />
               </div>
-              <h3 className="text-white font-black text-xl mb-2">No Transactions Found</h3>
+              <h3 className="text-on-surface font-extrabold text-xl mb-2">No Transactions Found</h3>
               <p className="text-slate-500 text-sm font-medium px-8 leading-relaxed">Your order history is currently empty. Start making sales to see them here.</p>
             </div>
           ) : (

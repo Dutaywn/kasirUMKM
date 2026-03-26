@@ -54,11 +54,11 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
-      <div className="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
-        <div className="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-800/20 flex-shrink-0">
-          <h2 className="text-xl font-bold text-white">Add New Product</h2>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition-colors">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <div className="bg-surface border border-outline-variant/30 w-full max-w-md rounded-3xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-300 flex flex-col max-h-[90vh]">
+        <div className="p-6 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container-low flex-shrink-0">
+          <h2 className="text-xl font-bold text-on-surface">Add New Product</h2>
+          <button onClick={onClose} className="text-slate-500 hover:text-error transition-colors">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -72,7 +72,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
               type="text"
               required
               placeholder="e.g. Es Kopi Susu"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-white border border-outline-variant/50 rounded-xl px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
@@ -85,7 +85,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
                 type="number"
                 required
                 placeholder="17000"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full bg-white border border-outline-variant/50 rounded-xl px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
               />
@@ -96,7 +96,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
                 type="number"
                 required
                 placeholder="10"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full bg-white border border-outline-variant/50 rounded-xl px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
                 value={formData.stocks}
                 onChange={(e) => setFormData({ ...formData, stocks: e.target.value })}
               />
@@ -107,7 +107,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
               <input
                 type="text"
                 placeholder="Jenis Stock"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full bg-white border border-outline-variant/50 rounded-xl px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
                 value={formData.note}
                 onChange={(e) => setFormData({ ...formData, note: e.target.value })}
               />
@@ -116,7 +116,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
           <div className="space-y-1">
             <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">Category</label>
             <select
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-white border border-outline-variant/50 rounded-xl px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
               value={formData.categoryId}
               onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
             >
@@ -133,7 +133,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
             <input
               type="text"
               placeholder="https://example.com/image.jpg"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 transition-colors"
+              className="w-full bg-white border border-outline-variant/50 rounded-xl px-4 py-3 text-on-surface focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm"
               value={formData.imgUrl}
               onChange={(e) => setFormData({ ...formData, imgUrl: e.target.value })}
             />
@@ -143,7 +143,7 @@ export default function ModalTambahProducts({ isOpen, onClose }: ModalTambahProp
             <button
               type="submit"
               disabled={isPending}
-              className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-indigo-600/20 active:scale-95 flex items-center justify-center gap-2"
+              className="w-full cta-gradient disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-2xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
             >
               {isPending ? (
                 <>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0058be",
+              "surface-container": "#eceef0",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#d8e2ff",
+              "surface-container-high": "#e6e8ea",
+              "outline-variant": "#c2c6d6",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary": "#924700",
+              "surface-tint": "#005ac2",
+              "tertiary-container": "#b75b00",
+              "on-tertiary-fixed": "#311400",
+              "inverse-surface": "#2d3133",
+              "inverse-primary": "#adc6ff",
+              "tertiary-fixed": "#ffdcc6",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#5516be",
+              "on-tertiary-container": "#fffbff",
+              "on-secondary-fixed": "#23005c",
+              "secondary-fixed-dim": "#d0bcff",
+              "primary-container": "#2170e4",
+              "surface": "#f7f9fb",
+              "primary-fixed-dim": "#adc6ff",
+              "on-surface-variant": "#424754",
+              "on-tertiary-fixed-variant": "#723600",
+              "on-tertiary": "#ffffff",
+              "on-secondary-container": "#fffbff",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-fixed-variant": "#004395",
+              "secondary-container": "#8455ef",
+              "secondary": "#6b38d4",
+              "on-primary-container": "#fefcff",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "background": "#f7f9fb",
+              "surface-container-low": "#f2f4f6",
+              "secondary-fixed": "#e9ddff",
+              "tertiary-fixed-dim": "#ffb786",
+              "surface-bright": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "outline": "#727785",
+              "on-primary-fixed": "#001a42",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-shadow-none { box-shadow: none !important; }
+            body { background: white !important; }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Shell -->
+<aside class="no-print h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 flex flex-col p-4 gap-2">
+<div class="mb-8 px-4">
+<span class="text-lg font-bold bg-gradient-to-br from-blue-700 to-violet-600 bg-clip-text text-transparent">Kasir UMKM</span>
+<p class="text-xs text-slate-500 font-inter label-sm uppercase mt-1">Premium POS</p>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-white/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-inter headline-sm bold labels-sm uppercase text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-white/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-inter headline-sm bold labels-sm uppercase text-sm">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 bg-white shadow-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-inter headline-sm bold labels-sm uppercase text-sm">Orders</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-slate-200 pt-4 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-white/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-white/50 transition-all rounded-xl" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Top AppBar Shell -->
+<header class="no-print fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-white/80 backdrop-blur-xl flex justify-between items-center px-8 shadow-sm">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full w-96">
+<span class="material-symbols-outlined text-slate-400">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full" placeholder="Search invoices..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-blue-700 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-blue-700 transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 overflow-hidden">
+<img alt="User Profile" data-alt="professional male business owner profile headshot soft lighting studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWMkCFPz9PIlOzZQMKJek2qikQgSfdrtrdEoARIXPMhxvuKJHZth6R459wvrDGIVqkAjM40mK4Av8vENvR7vrZA54nIf91MCqjEPmTCcxhP2MfWvOGM1KPiCrSOyhdEZNQCkWxp9Wy9NVJQazNsS1mZAmaUjFr86TvU2ciOrQSPD3H9QZqRPqK8sVFNs90tpiWqq8qDeTqJ2pfyx98GfoscgKoM1uwJG-Zhaqw4rtmOVwX1TFxvY7XU08XiHQRvMLqtbzg7eru"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-4xl mx-auto p-8 lg:p-12">
+<!-- Breadcrumbs & Actions -->
+<div class="no-print flex justify-between items-center mb-10">
+<div>
+<h1 class="text-2xl font-bold font-headline tracking-tight text-on-surface">Invoice Details</h1>
+<p class="text-slate-500 text-sm mt-1">Transaction #INV-2023-8842</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-high text-on-surface font-semibold text-sm hover:bg-surface-container-highest transition-all" onclick="window.print()">
+<span class="material-symbols-outlined text-lg">print</span>
+                        Print
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-br from-primary to-secondary text-on-primary font-semibold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+<span class="material-symbols-outlined text-lg">download</span>
+                        Download PDF
+                    </button>
+</div>
+</div>
+<!-- Invoice Document Surface -->
+<div class="bg-white rounded-[2rem] p-10 lg:p-16 shadow-xl shadow-slate-200/50 print-shadow-none border border-slate-100 relative overflow-hidden">
+<!-- Editorial Accent Background -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-slate-50 -mr-32 -mt-32 rounded-full opacity-50 pointer-events-none"></div>
+<!-- Header Section -->
+<div class="relative z-10 flex flex-col md:flex-row justify-between items-start gap-8 mb-16">
+<div>
+<div class="mb-6">
+<span class="text-2xl font-extrabold bg-gradient-to-br from-blue-700 to-violet-600 bg-clip-text text-transparent tracking-tighter">Kasir UMKM</span>
+<div class="mt-2 text-sm text-slate-500 leading-relaxed max-w-xs">
+                                Jl. Sudirman No. 45, Kebayoran Baru<br/>
+                                Jakarta Selatan, 12110<br/>
+                                contact@kasirumkm.id
+                            </div>
+</div>
+<div class="inline-flex items-center px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-widest border border-emerald-100">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2"></span>
+                            Paid
+                        </div>
+</div>
+<div class="text-left md:text-right">
+<h2 class="text-4xl font-black font-headline text-slate-900 tracking-tighter mb-4">INVOICE</h2>
+<div class="space-y-1">
+<div class="flex md:justify-end gap-4">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Number</span>
+<span class="text-on-surface font-semibold text-sm">INV-2023-8842</span>
+</div>
+<div class="flex md:justify-end gap-4">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Date</span>
+<span class="text-on-surface font-semibold text-sm">Oct 24, 2023</span>
+</div>
+<div class="flex md:justify-end gap-4">
+<span class="text-slate-400 text-xs font-bold uppercase tracking-wider">Time</span>
+<span class="text-on-surface font-semibold text-sm">14:32 PM</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Customer Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+<div class="bg-surface-container-low p-8 rounded-2xl">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Billed To</h3>
+<p class="text-lg font-bold text-on-surface mb-1">Ahmad Sulaiman</p>
+<p class="text-sm text-slate-600 mb-4">ahmad.s@example.com</p>
+<div class="text-xs text-slate-400 leading-relaxed">
+                            Cempaka Putih Tengah 2<br/>
+                            Jakarta Pusat, 10510
+                        </div>
+</div>
+<div class="p-8 border border-slate-100 rounded-2xl">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Payment Method</h3>
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-primary text-3xl">account_balance_wallet</span>
+<div>
+<p class="font-bold text-sm">E-Wallet (Dana)</p>
+<p class="text-xs text-slate-500">Transaction ID: DX-99812-BC</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Items Table -->
+<div class="mb-12">
+<div class="grid grid-cols-12 gap-4 pb-4 border-b border-slate-100 mb-6">
+<div class="col-span-6 text-xs font-bold uppercase tracking-widest text-slate-400">Description</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-slate-400 text-center">Qty</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-slate-400 text-right">Price</div>
+<div class="col-span-2 text-xs font-bold uppercase tracking-widest text-slate-400 text-right">Total</div>
+</div>
+<div class="space-y-6">
+<!-- Row 1 -->
+<div class="grid grid-cols-12 gap-4 items-center">
+<div class="col-span-6">
+<p class="font-bold text-on-surface">Artisan Sourdough Bread</p>
+<p class="text-xs text-slate-500 mt-0.5">Freshly baked, 500g loaf</p>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">2</div>
+<div class="col-span-2 text-right text-sm font-medium text-slate-600">Rp 45.000</div>
+<div class="col-span-2 text-right text-sm font-bold text-on-surface">Rp 90.000</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 gap-4 items-center">
+<div class="col-span-6">
+<p class="font-bold text-on-surface">Organic Arabica Beans</p>
+<p class="text-xs text-slate-500 mt-0.5">Sumatran Mandheling, Medium Roast</p>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">1</div>
+<div class="col-span-2 text-right text-sm font-medium text-slate-600">Rp 125.000</div>
+<div class="col-span-2 text-right text-sm font-bold text-on-surface">Rp 125.000</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 gap-4 items-center">
+<div class="col-span-6">
+<p class="font-bold text-on-surface">Ceramic Pour-Over Dripper</p>
+<p class="text-xs text-slate-500 mt-0.5">V60 Size 02, Matte Black</p>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">1</div>
+<div class="col-span-2 text-right text-sm font-medium text-slate-600">Rp 210.000</div>
+<div class="col-span-2 text-right text-sm font-bold text-on-surface">Rp 210.000</div>
+</div>
+</div>
+</div>
+<!-- Summary -->
+<div class="border-t-2 border-slate-50 pt-8 flex flex-col md:flex-row justify-between gap-12">
+<div class="flex-1">
+<div class="bg-surface p-6 rounded-2xl">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Note</p>
+<p class="text-sm text-slate-600 italic leading-relaxed">
+                                Thank you for your purchase! All coffee bean sales are final. For hardware issues, please contact our support within 7 days.
+                            </p>
+</div>
+</div>
+<div class="w-full md:w-80 space-y-3">
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Subtotal</span>
+<span class="font-bold text-on-surface">Rp 425.000</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Tax (PPN 11%)</span>
+<span class="font-bold text-on-surface">Rp 46.750</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-slate-500">Discount (PROMOCOFFEE)</span>
+<span class="font-bold text-emerald-600">- Rp 25.000</span>
+</div>
+<div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+<span class="text-lg font-black font-headline text-slate-900 tracking-tight">Total</span>
+<span class="text-2xl font-black font-headline text-primary tracking-tight">Rp 446.750</span>
+</div>
+</div>
+</div>
+<!-- Footer Aesthetic -->
+<div class="mt-20 flex justify-between items-end">
+<div>
+<img alt="Signature" class="h-12 w-auto mb-2 opacity-60 grayscale" data-alt="minimalist black and white signature of a person on white paper texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAP7egKJK3If37lpY6nXug0hCvk7F2eIhw4V_GqXcwRdCfKc742fegFp1MRCDQftkPgd6iklkOKvt9QjtK3wKNewMcpmY4Ywlra3zeRG6NMHxJzfvrh6MEteQt9xlIa6ijetZ2YnlWuS6CskSRvwXsojVspFwk0nQzEcOQxWm7Z2TCNbUIVpo7ylbf4wHOGyWnLNq6Gmzx3KaXhwdTW24Ek0eH6MqziteGL-iYMSqWF1mpAuxKbNj9f2R08XuGpOjenmqF-jqv"/>
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Authorized Personnel</p>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Generated By</p>
+<p class="text-xs font-bold text-slate-900">Kasir UMKM Digital Assistant</p>
+</div>
+</div>
+</div>
+<!-- Promotion / Post-Action Section (No Print) -->
+<div class="no-print mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="group p-6 bg-white rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">email</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Email Receipt</h4>
+<p class="text-sm text-slate-500">Send a copy of this invoice to your customer's email.</p>
+</div>
+<div class="group p-6 bg-white rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-all cursor-pointer">
+<div class="w-12 h-12 rounded-2xl bg-violet-50 text-violet-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">restart_alt</span>
+</div>
+<h4 class="font-bold text-on-surface mb-1">Issue Refund</h4>
+<p class="text-sm text-slate-500">Process a full or partial refund for this transaction.</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

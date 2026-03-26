@@ -29,7 +29,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden w-full max-w-full">
+      <body className="min-h-full flex flex-col overflow-x-hidden w-full max-w-full bg-surface text-on-surface">
         <TanstackProvider>
           {children}
         </TanstackProvider>

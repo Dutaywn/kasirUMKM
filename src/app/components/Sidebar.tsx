@@ -25,15 +25,11 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-slate-900 border-r border-slate-800 p-6 flex flex-col justify-between hidden lg:flex">
+    <aside className="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-40 p-6 flex flex-col justify-between hidden lg:flex">
       <div className="space-y-8">
-        <div className="flex items-center gap-3 px-2">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20">
-            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Kasir UMKM</span>
+        <div className="mb-6 px-2">
+          <h1 className="text-xl font-bold tracking-tight text-primary">Kasir UMKM</h1>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Premium POS</p>
         </div>
 
         <nav className="space-y-1">
@@ -42,13 +38,13 @@ export default function Sidebar() {
             return (
               <button
                 key={item.name}
-                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group hover:bg-slate-800 ${isActive ? "bg-slate-800 text-indigo-400 font-medium" : "text-slate-400 hover:text-white"}`}
+                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 active:scale-95 ${isActive ? "bg-white/50 text-primary font-bold border-l-4 border-primary shadow-sm" : "text-slate-500 hover:text-primary hover:bg-white/80"}`}
                 onClick={() => router.push(item.path)}
               >
-                <svg className={`w-5 h-5 transition-colors group-hover:text-indigo-400 ${isActive ? "text-indigo-400" : "text-slate-500"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className={`w-5 h-5 transition-colors ${isActive ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                 </svg>
-                {item.name}
+                <span className="text-sm font-bold uppercase tracking-wide">{item.name}</span>
               </button>
             );
           })}
@@ -56,21 +52,21 @@ export default function Sidebar() {
       </div>
 
 
-      <div className="pt-6 border-t border-slate-800">
+      <div className="pt-6 border-t border-slate-200">
         <div className="flex items-center gap-3 px-2 mb-6">
-          <div className="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-indigo-400 font-bold">
+          <div className="w-10 h-10 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center text-primary font-bold">
             {user?.userName?.charAt(0).toUpperCase() || "U"}
           </div>
           <div className="overflow-hidden">
-            <p className="text-sm font-medium text-white truncate">{user?.userName}</p>
-            <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
+            <p className="text-sm font-bold text-on-surface truncate">{user?.userName}</p>
+            <p className="text-xs text-slate-400 capitalize">{user?.role}</p>
           </div>
         </div>
         <button
           onClick={handleLogout}
-          className="w-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 py-3 rounded-xl text-sm font-medium transition-colors border border-rose-500/25 flex items-center justify-center gap-2"
+          className="w-full text-error hover:bg-error/10 py-3 rounded-xl text-sm font-bold uppercase tracking-wide transition-colors flex items-center justify-center gap-3 active:scale-95"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
           Logout

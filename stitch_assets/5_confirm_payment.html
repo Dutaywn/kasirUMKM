@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payment Confirmation - Kasir UMKM</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0058be",
+              "surface-container": "#eceef0",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#d8e2ff",
+              "surface-container-high": "#e6e8ea",
+              "outline-variant": "#c2c6d6",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary": "#924700",
+              "surface-tint": "#005ac2",
+              "tertiary-container": "#b75b00",
+              "on-tertiary-fixed": "#311400",
+              "inverse-surface": "#2d3133",
+              "inverse-primary": "#adc6ff",
+              "tertiary-fixed": "#ffdcc6",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#5516be",
+              "on-tertiary-container": "#fffbff",
+              "on-secondary-fixed": "#23005c",
+              "secondary-fixed-dim": "#d0bcff",
+              "primary-container": "#2170e4",
+              "surface": "#f7f9fb",
+              "primary-fixed-dim": "#adc6ff",
+              "on-surface-variant": "#424754",
+              "on-tertiary-fixed-variant": "#723600",
+              "on-tertiary": "#ffffff",
+              "on-secondary-container": "#fffbff",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-fixed-variant": "#004395",
+              "secondary-container": "#8455ef",
+              "secondary": "#6b38d4",
+              "on-primary-container": "#fefcff",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "background": "#f7f9fb",
+              "surface-container-low": "#f2f4f6",
+              "secondary-fixed": "#e9ddff",
+              "tertiary-fixed-dim": "#ffb786",
+              "surface-bright": "#f7f9fb",
+              "on-surface": "#191c1e",
+              "outline": "#727785",
+              "on-primary-fixed": "#001a42",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-gradient-pos {
+            background: linear-gradient(135deg, #0058be 0%, #6b38d4 100%);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-fixed">
+<!-- Shell Suppression: This is a task-focused screen (Checkout), so SideNav and TopAppBar are excluded as per the "Destination Rule" and "Automatic Suppression" logic. -->
+<main class="min-h-screen flex flex-col items-center justify-center p-6 md:p-12">
+<!-- Header Section -->
+<header class="w-full max-w-5xl flex justify-between items-end mb-12">
+<div>
+<button class="flex items-center gap-2 text-primary font-semibold mb-4 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined">arrow_back</span>
+<span>Back to Register</span>
+</button>
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface">Payment Confirmation</h1>
+<p class="text-on-surface-variant mt-2">Order #88291 • Table 12 • Staff: Sarah W.</p>
+</div>
+<div class="hidden md:block text-right">
+<div class="inline-flex items-center px-4 py-2 bg-surface-container-high rounded-full gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="text-label-sm font-bold uppercase tracking-widest text-on-surface-variant">System Online</span>
+</div>
+</div>
+</header>
+<!-- Main Transaction Grid -->
+<div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Order Summary (Editorial Card) -->
+<div class="lg:col-span-7 flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0px_12px_32px_rgba(15,23,42,0.06)] relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-9xl">receipt_long</span>
+</div>
+<h2 class="text-headline-sm font-bold mb-8">Order Summary</h2>
+<div class="space-y-6">
+<!-- Items -->
+<div class="flex justify-between items-center group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of a premium artisan caffe latte with intricate foam art in a ceramic cup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8WwNH67GgE2ef5Zu1JxJbQW09BBfn4mti8R4CbxoFgab6Rpd0dQ4jp7HmGDcKTUkMYWMeeZw_ezdMst-d_iZGRUGVafNiBByPaZzP24ezHsCkYQB4Xv9XRTaG9jB0PvKFGzzdFUcwT5TeSM1x-_0zF98YUJv2NCCiEcmu9yE_xerIaVduQKSpfUuE6r01Doy0GXGr4wZ5KjS7pCP2yurmkngP0lwhbtjyxydoCTuxzjjA0Vtx0LZ4T02U9pS8DlCqhm_kYeJl"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Double Espresso Macchiato</p>
+<p class="text-sm text-on-surface-variant">Qty: 2 • Regular Size</p>
+</div>
+</div>
+<p class="font-bold text-on-surface">Rp 76.000</p>
+</div>
+<div class="flex justify-between items-center group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Freshly baked butter croissant with flaky golden layers on a white minimal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvnOqDKGOP6xYWUkDYoqdA4F8ZlB7l5-ZxQbjxMVNG1LOr3_G798tyOYrnmRmdKpJLnRrs8PrM0ouB_EYWbTZy0cvA_w-i-fFgNDvzdlJdYFlGPRxapCV4j8onNUxCdwcL5OgtbueaKfhljsmer1gwo1xFUxv0wnPmkZwncCw22Lg0lgKjCdfD2TcBGbbUyXouo0JZ_WYJ7g_jb6FSP2Xlb-HWYjsqedT2WLbu63guHY9WdA3CVjsBRgRtGeV8fI32nu7B7KHq"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Butter Croissant</p>
+<p class="text-sm text-on-surface-variant">Qty: 1 • Warm</p>
+</div>
+</div>
+<p class="font-bold text-on-surface">Rp 28.000</p>
+</div>
+<div class="flex justify-between items-center group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-low overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Glazed chocolate donut with sprinkles on a minimalist plate" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMoaOdIxCmAF44FkpOcR7-q_Yj5gjKnaig_i9pfXpJgSxFNjLBOs1xVaeXqnRa_l5C5N55ni1qbUUSJFsuCwKx-Vxr0jtXELDuYJqL-2hwN53yCraAs46a-GkYl2Hspy9SVIhE80-L_Fb5vf6vMvaqLJsOXbBV1n7Zs__wmxkGkhVUsq8vJjN0LAYbfUB9Q89gvNf2DVZ5SIEeNgPfWl4Kxvd5W8lPwsCNKnGpHMV9UEWI4j9BGOvoNMLyKN0WfAnxInvKrRDx"/>
+</div>
+<div>
+<p class="font-bold text-on-surface">Classic Glazed Donut</p>
+<p class="text-sm text-on-surface-variant">Qty: 3 • Boxed</p>
+</div>
+</div>
+<p class="font-bold text-on-surface">Rp 45.000</p>
+</div>
+</div>
+<!-- Tonal Shift for Calculations -->
+<div class="mt-12 pt-8 border-t border-surface-container-high">
+<div class="space-y-3">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal</span>
+<span>Rp 149.000</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Service (5%)</span>
+<span>Rp 7.450</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Tax (11%)</span>
+<span>Rp 16.390</span>
+</div>
+<div class="flex justify-between text-2xl font-black text-on-surface pt-4">
+<span>Total Amount</span>
+<span class="text-primary">Rp 172.840</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Style Loyalty Card -->
+<div class="bg-primary-container text-on-primary-container p-6 rounded-xl flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="bg-on-primary-container/20 p-3 rounded-full">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div>
+<p class="font-bold">Customer Loyalty</p>
+<p class="text-sm opacity-80">This transaction earns 172 points</p>
+</div>
+</div>
+<button class="bg-surface-container-lowest text-primary px-4 py-2 rounded-full text-sm font-bold">Add Member</button>
+</div>
+</div>
+<!-- Right Column: Payment Methods & Action -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<div class="bg-surface-container-low rounded-xl p-8 h-full flex flex-col">
+<h2 class="text-headline-sm font-bold mb-6">Payment Method</h2>
+<div class="grid grid-cols-1 gap-4 flex-grow">
+<!-- Option: Cash -->
+<div class="cursor-pointer bg-surface-container-lowest p-5 rounded-xl border-2 border-primary ring-4 ring-primary/5 transition-all flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-lg">Cash</p>
+<p class="text-sm text-on-surface-variant">Physical Currency</p>
+</div>
+<div class="w-6 h-6 rounded-full border-4 border-primary bg-primary"></div>
+</div>
+<!-- Option: QRIS -->
+<div class="cursor-pointer bg-surface-container-lowest p-5 rounded-xl border-2 border-transparent hover:border-surface-variant transition-all flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">qr_code_2</span>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-lg">QRIS / Digital</p>
+<p class="text-sm text-on-surface-variant">E-Wallet &amp; Mobile Banking</p>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant"></div>
+</div>
+<!-- Option: Note/Credit -->
+<div class="cursor-pointer bg-surface-container-lowest p-5 rounded-xl border-2 border-transparent hover:border-surface-variant transition-all flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">credit_card</span>
+</div>
+<div class="flex-grow">
+<p class="font-bold text-lg">Note / Credit</p>
+<p class="text-sm text-on-surface-variant">Charge to Account / EDC</p>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant"></div>
+</div>
+</div>
+<!-- Confirm Action -->
+<div class="mt-8 space-y-4">
+<div class="flex gap-2">
+<input class="rounded text-primary focus:ring-primary" id="receipt" type="checkbox"/>
+<label class="text-sm text-on-surface-variant" for="receipt">Print physical receipt automatically</label>
+</div>
+<!-- Primary CTA -->
+<button class="w-full bg-gradient-pos text-on-primary py-6 rounded-full text-xl font-bold flex items-center justify-center gap-3 shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">verified</span>
+                            Confirm Payment
+                        </button>
+<button class="w-full py-4 rounded-full text-on-surface-variant font-medium hover:bg-surface-container-high transition-colors">
+                            Discard Order
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Success Toast (Conceptual) -->
+<div class="fixed bottom-12 left-1/2 -translate-x-1/2 glass-panel border border-white/50 px-8 py-4 rounded-full shadow-2xl flex items-center gap-4 opacity-0 pointer-events-none translate-y-4 transition-all duration-500">
+<div class="bg-green-500 text-white rounded-full p-1">
+<span class="material-symbols-outlined text-sm">check</span>
+</div>
+<p class="font-bold text-on-surface">Payment successful. Printing receipt...</p>
+</div>
+</main>
+<!-- Aesthetic Decorative Background Elements -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden pointer-events-none">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute top-1/2 -right-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-1/3 w-80 h-80 bg-tertiary/5 rounded-full blur-3xl"></div>
+</div>
+</body></html>

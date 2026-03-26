@@ -40,27 +40,27 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
   const getStatusColor = (status: string) => {
     switch (status.toUpperCase()) {
       case "PAID":
-        return "text-emerald-400 bg-emerald-400/10 border-emerald-400/20";
+        return "text-emerald-600 bg-emerald-50 border-emerald-200";
       case "PENDING":
-        return "text-amber-400 bg-amber-400/10 border-amber-400/20";
+        return "text-amber-600 bg-amber-50 border-amber-200";
       case "CANCELLED":
-        return "text-rose-400 bg-rose-400/10 border-rose-400/20";
+        return "text-error bg-error/10 border-error/20";
       default:
-        return "text-slate-400 bg-slate-400/10 border-slate-400/20";
+        return "text-slate-500 bg-slate-50 border-slate-200";
     }
   };
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-indigo-500/50 transition-all duration-300 group hover:shadow-2xl hover:shadow-indigo-500/10 mb-4">
+    <div className="bg-white border border-outline-variant/30 rounded-2xl p-6 hover:shadow-md transition-all duration-300 group mb-4 shadow-sm">
       <div className="flex justify-between items-start mb-6">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Invoice</span>
-            <span className="text-sm font-black text-white group-hover:text-indigo-400 transition-colors">#{order.id}</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Invoice</span>
+            <span className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">#{order.id}</span>
           </div>
           <div className="flex items-center gap-3 text-[11px] font-bold text-slate-500 uppercase tracking-tight">
             <span className="flex items-center gap-1.5">
-              <LucideClock size={12} className="text-indigo-500/50" />
+              <LucideClock size={12} className="text-primary/50" />
               {date} • {time}
             </span>
           </div>
@@ -77,35 +77,35 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
         {order.items.map((item) => (
           <div key={item.id} className="flex justify-between items-center group/item">
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 flex items-center justify-center bg-slate-800 rounded-lg text-[10px] font-black text-indigo-400 border border-slate-700/50 group-hover/item:bg-indigo-600 group-hover/item:text-white transition-colors">
+              <span className="w-6 h-6 flex items-center justify-center bg-surface-container-high rounded-lg text-[10px] font-bold text-primary border border-outline-variant/20 group-hover/item:bg-primary group-hover/item:text-white transition-colors">
                 {item.quantity}
               </span>
-              <span className="text-sm font-bold text-slate-300 group-hover/item:text-white transition-colors">{item.product.name}</span>
+              <span className="text-sm font-bold text-on-surface group-hover/item:text-primary transition-colors">{item.product.name}</span>
             </div>
             <span className="text-xs font-bold text-slate-500 tabular-nums">Rp {item.priceAtPurchase.toLocaleString("id-ID")}</span>
           </div>
         ))}
       </div>
 
-      <div className="pt-5 border-t border-slate-800/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="pt-5 border-t border-outline-variant/20 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 px-3 py-2 bg-slate-800/50 rounded-xl border border-slate-700/50 shadow-inner">
-            <LucideCreditCard size={12} className="text-indigo-400" />
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{order.paymentMethod}</span>
+          <div className="flex items-center gap-2 px-3 py-2 bg-surface-container rounded-xl border border-outline-variant/30 shadow-sm">
+            <LucideCreditCard size={12} className="text-primary" />
+            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{order.paymentMethod}</span>
           </div>
           <Link 
             href={`/page/orders/${order.id}/nota`}
-            className="flex items-center gap-2 px-3 py-2 bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 rounded-xl border border-indigo-500/20 transition-all duration-200 active:scale-95 shadow-lg shadow-indigo-500/5"
+            className="flex items-center gap-2 px-3 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl border border-primary/20 transition-all duration-200 active:scale-95 shadow-sm"
           >
             <NotebookTextIcon size={12} />
-            <span className="text-[10px] font-black uppercase tracking-widest">Nota</span>
+            <span className="text-[10px] font-bold uppercase tracking-widest">Nota</span>
           </Link>
         </div>
 
         <div className="text-left sm:text-right w-full sm:w-auto">
-          <p className="text-[10px] uppercase font-black text-slate-500 tracking-tighter mb-0.5">Total Amount</p>
-          <p className="text-2xl font-black bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent italic tabular-nums">
+          <p className="text-[10px] uppercase font-bold text-slate-500 tracking-tighter mb-0.5">Total Amount</p>
+          <p className="text-xl font-bold text-on-surface tabular-nums">
             Rp {order.totalAmount.toLocaleString("id-ID")}
           </p>
         </div>

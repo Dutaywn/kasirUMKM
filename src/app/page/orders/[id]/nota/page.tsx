@@ -28,23 +28,23 @@ export default function NotaPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 space-y-4">
-        <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin shadow-lg shadow-indigo-500/20"></div>
-        <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] animate-pulse">Menyiapkan Nota...</p>
+      <div className="min-h-screen bg-surface flex flex-col items-center justify-center p-6 space-y-4 font-body">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin shadow-lg shadow-primary/20"></div>
+        <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px] animate-pulse">Menyiapkan Nota...</p>
       </div>
     );
   }
 
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
-        <div className="bg-rose-500/10 border border-rose-500/20 rounded-3xl p-8 text-center max-w-sm">
-          <div className="w-16 h-16 bg-rose-500/20 rounded-full flex items-center justify-center mx-auto mb-4 border border-rose-500/30 text-rose-500 font-bold text-2xl">!</div>
-          <h2 className="text-white font-black text-xl mb-2 tracking-tight">Nota Tidak Ditemukan</h2>
-          <p className="text-slate-400 text-sm mb-6 font-medium">Maaf, data transaksi tidak dapat ditemukan atau terjadi kesalahan koneksi.</p>
+      <div className="min-h-screen bg-surface flex items-center justify-center p-6 font-body">
+        <div className="bg-error/5 border border-error/20 rounded-3xl p-8 text-center max-w-sm">
+          <div className="w-16 h-16 bg-error/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-error/20 text-error font-bold text-2xl">!</div>
+          <h2 className="text-on-surface font-extrabold text-xl mb-2 tracking-tight">Nota Tidak Ditemukan</h2>
+          <p className="text-slate-500 text-sm mb-6 font-medium">Maaf, data transaksi tidak dapat ditemukan atau terjadi kesalahan koneksi.</p>
           <button 
             onClick={() => router.push("/page/dashboard")}
-            className="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold border border-slate-800 hover:bg-slate-800 transition-all"
+            className="w-full bg-white text-on-surface py-4 rounded-2xl font-bold border border-outline-variant hover:bg-surface-container transition-all"
           >
             Kembali ke Dashboard
           </button>
@@ -62,19 +62,19 @@ export default function NotaPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 pb-20 print:bg-white print:text-black">
+    <div className="min-h-screen bg-surface text-on-surface pb-20 font-body print:bg-white print:text-black">
       {/* Top Navbar (Hidden in print) */}
-      <nav className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50 print:hidden">
+      <nav className="border-b border-outline-variant/20 bg-surface/80 backdrop-blur-md sticky top-0 z-50 print:hidden">
         <div className="max-w-3xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/page/dashboard" className="flex items-center gap-2 text-slate-400 hover:text-white font-bold transition-all group">
+          <Link href="/page/orders" className="flex items-center gap-2 text-slate-500 hover:text-primary font-bold transition-all group">
             <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-            DASHBOARD
+            Kembali
           </Link>
           <div className="flex items-center gap-3">
-             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-indigo-600/20">
+             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center text-primary shadow-sm shadow-primary/10">
                 <ShoppingBag size={18} />
              </div>
-             <span className="font-black italic text-white tracking-widest text-sm uppercase">Nota Digital</span>
+             <span className="font-extrabold italic text-on-surface tracking-widest text-sm uppercase">Nota Digital</span>
           </div>
         </div>
       </nav>
@@ -82,18 +82,18 @@ export default function NotaPage() {
       <main className="max-w-2xl mx-auto px-6 pt-12 print:p-0 print:m-0 print:max-w-none">
          {/* Success Message Area (Hidden in print) */}
          <div className="text-center mb-10 print:hidden space-y-4">
-            <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto border border-emerald-500/30 text-emerald-500 animate-in zoom-in-50 duration-500">
+            <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto border border-emerald-200 text-emerald-600 animate-in zoom-in-50 duration-500 shadow-sm">
                <CheckCircle2 size={32} />
             </div>
-            <h1 className="text-3xl font-black text-white italic tracking-tight uppercase">Transaksi Berhasil!</h1>
+            <h1 className="text-3xl font-black text-on-surface italic tracking-tight uppercase">Transaksi Berhasil!</h1>
             <p className="text-slate-500 font-medium italic">Nota transaksi Anda telah dibuat di bawah ini.</p>
          </div>
 
          {/* The Nota (The part to be printed) */}
-         <div className="bg-white text-slate-900 rounded-[2.5rem] shadow-2xl shadow-indigo-500/5 p-8 md:p-12 relative overflow-hidden print:shadow-none print:rounded-none print:p-0">
+         <div className="bg-white text-slate-900 rounded-[2.5rem] shadow-sm border border-outline-variant/30 p-8 md:p-12 relative overflow-hidden print:border-none print:shadow-none print:rounded-none print:p-0">
             {/* Design accents */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-[40px] rounded-full -mr-16 -mt-16 print:hidden" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/5 blur-[40px] rounded-full -ml-16 -mb-16 print:hidden" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[40px] rounded-full -mr-16 -mt-16 print:hidden" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[40px] rounded-full -ml-16 -mb-16 print:hidden" />
 
             {/* Receipt Header */}
             <div className="text-center space-y-2 mb-10 relative">
@@ -193,14 +193,14 @@ export default function NotaPage() {
          <div className="mt-12 grid grid-cols-2 gap-6 print:hidden">
             <button 
                onClick={handlePrint}
-               className="bg-indigo-600 hover:bg-indigo-500 text-white p-5 rounded-[2rem] font-black transition-all shadow-xl shadow-indigo-600/20 flex items-center justify-center gap-3 uppercase tracking-widest group active:scale-95"
+               className="cta-gradient text-white p-5 rounded-[2rem] font-black transition-all shadow-md active:scale-95 flex items-center justify-center gap-3 uppercase tracking-widest group"
             >
                <Printer size={20} className="group-hover:scale-110 transition-transform" />
                Cetak Nota
             </button>
             <Link 
                href="/page/orders"
-               className="bg-slate-900 hover:bg-slate-800 text-white p-5 rounded-[2rem] font-black border border-slate-800 transition-all flex items-center justify-center gap-3 uppercase tracking-widest active:scale-95"
+               className="bg-white hover:bg-surface-container text-on-surface p-5 rounded-[2rem] font-bold border border-outline-variant transition-all flex items-center justify-center gap-3 uppercase tracking-widest active:scale-95 shadow-sm"
             >
                <LucideListOrdered size={20} />
                Lihat Pesanan
@@ -208,7 +208,7 @@ export default function NotaPage() {
          </div>
 
          <div className="mt-8 text-center print:hidden">
-            <Link href="/page/dashboard" className="text-slate-500 font-bold text-xs uppercase tracking-widest hover:text-indigo-400 transition-colors">
+            <Link href="/page/dashboard" className="text-slate-500 font-bold text-xs uppercase tracking-widest hover:text-primary transition-colors">
                Kembali ke Halaman Utama Dashboard
             </Link>
          </div>

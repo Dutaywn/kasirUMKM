@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Kasir UMKM - Product Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0058be",
+                        "surface-container": "#eceef0",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-container-high": "#e6e8ea",
+                        "outline-variant": "#c2c6d6",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary": "#924700",
+                        "surface-tint": "#005ac2",
+                        "tertiary-container": "#b75b00",
+                        "on-tertiary-fixed": "#311400",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#adc6ff",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed-variant": "#5516be",
+                        "on-tertiary-container": "#fffbff",
+                        "on-secondary-fixed": "#23005c",
+                        "secondary-fixed-dim": "#d0bcff",
+                        "primary-container": "#2170e4",
+                        "surface": "#f7f9fb",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#004395",
+                        "secondary-container": "#8455ef",
+                        "secondary": "#6b38d4",
+                        "on-primary-container": "#fefcff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed": "#e9ddff",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "outline": "#727785",
+                        "on-primary-fixed": "#001a42",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .bg-gradient-primary-secondary {
+            background: linear-gradient(135deg, #0058be 0%, #6b38d4 100%);
+        }
+        .glass-overlay {
+            background: rgba(247, 249, 251, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .custom-shadow {
+            box-shadow: 0px 12px 32px rgba(25, 28, 30, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body overflow-hidden">
+<!-- Background Content: Products Screen (Blurred) -->
+<div class="flex h-screen w-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full p-4 gap-2 bg-slate-50 dark:bg-slate-900 h-screen w-64 fixed left-0 top-0 border-r-0 z-10">
+<div class="mb-8 px-4">
+<span class="text-lg font-bold bg-gradient-to-br from-blue-700 to-violet-600 bg-clip-text text-transparent">Kasir UMKM</span>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Premium POS</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all font-inter labels-sm uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-bold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-800 rounded-xl shadow-sm transition-all font-inter labels-sm uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-bold">Products</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all font-inter labels-sm uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-bold">Orders</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-surface-container">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-white/50 transition-all font-inter labels-sm uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-bold">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:bg-white/50 transition-all font-inter labels-sm uppercase" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-bold">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 bg-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 h-full">
+<div class="relative w-96 group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Search inventory..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-slate-500 hover:text-blue-700 transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 hover:text-blue-700 transition-all">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="portrait of a professional store manager in a clean modern office setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSl9bKaBuZBfo5fevX5aeAmarIq3vd264Kho66749UYLa7dudKNtvkq7SE55kU-MRKox0wQdbt1yTdz_5TkgJHHvBhGS74j9RgSMqYzDvg8SYTdD3iQ8ct7kozbEpdtBFUbrbpx1y4tM91OvzpIieXUL1T64z0oHTxJnG0zka1Wzhves6NSRV7uDzV7VQcH9i-39tduwtfjRmygcV8YgIMzpsVEQXH0pFjQskdg4I_Wts_6upK2VtH9OGH_zSSKWQ5o-QiBwk7"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Product Dashboard Canvas -->
+<div class="p-12 mt-16 blur-sm pointer-events-none">
+<div class="flex justify-between items-end mb-12">
+<div>
+<h1 class="text-4xl font-bold tracking-tight text-on-surface">Inventory</h1>
+<p class="text-on-surface-variant mt-2">Manage your product catalog and stock levels</p>
+</div>
+<button class="bg-gradient-primary-secondary text-white px-8 py-4 rounded-full font-bold headline-sm flex items-center gap-2 shadow-lg">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                        Add New Product
+                    </button>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Product Card 1 -->
+<div class="col-span-4 bg-surface-container-lowest rounded-xl p-6 transition-all">
+<div class="aspect-square bg-surface-container rounded-lg mb-4 overflow-hidden">
+<img alt="Product" class="w-full h-full object-cover" data-alt="minimalist white wristwatch on a clean marble surface with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx9t8xUKS3Uzu9ktbeev4p9p-Vj0DnrNK02wuOXQrJdXly_nGsSEVx-EOjI7YknNHBxfl1VxFqrUtzGNdulEHSRsJxT66HsM5GTNViwZRdBF0QmfXbihjcf7nW4r9yYtb373B_l0_UxLw3KUf_IvyK4v9vDbrfoF8Eg7sWZGabU9ZR6baVUpCL8RMqFG6M04qoExOe610Ih3tJGJPgnBGmmONQ9fTo1ltympDe2Cklb0de-LcWv0JSb7ET8AuLnd8iP0wWF-5V"/>
+</div>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Lifestyle</span>
+<h3 class="text-lg font-bold mt-2">Premium Watch v2</h3>
+<p class="text-primary font-semibold mt-1">$299.00</p>
+</div>
+<!-- Product Card 2 -->
+<div class="col-span-4 bg-surface-container-lowest rounded-xl p-6 transition-all">
+<div class="aspect-square bg-surface-container rounded-lg mb-4 overflow-hidden">
+<img alt="Product" class="w-full h-full object-cover" data-alt="professional studio headphones on a wooden table with dramatic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGjoy5u4efiHh_raU4LQ_qFlC28Q3HVrQVekqbp9ob39fEr1wPXTrc1GufN814cP3dJTY_twIcd5IwriVlZtPaRsrKBMjQ-FUZnC0a9XYPZI2YE2pME_gDilN3lgVCpzBSKH-WIstQo3q9TCtdJssSXWAg5NY2AlRv73L-Frj60rbdS-YMMXfDjRzJl12LHcSVK1Yd8uxGBJ-PO47czGLvFEGqcmlPVeXQveOVAzapO14XjpZtqbamGmX4DMv4OB15i3q6TR8_"/>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Electronics</span>
+<h3 class="text-lg font-bold mt-2">Studio Headphones</h3>
+<p class="text-primary font-semibold mt-1">$149.50</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 glass-overlay">
+<!-- Modal Card -->
+<div class="w-full max-w-2xl bg-surface-container-lowest rounded-[2rem] custom-shadow overflow-hidden flex flex-col md:flex-row">
+<!-- Left Side: Image Upload -->
+<div class="w-full md:w-5/12 bg-surface-container-low p-8 flex flex-col items-center justify-center border-r-0">
+<div class="w-full aspect-square rounded-2xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center group hover:border-primary transition-colors cursor-pointer bg-white">
+<div class="bg-primary-fixed p-4 rounded-full mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="add_a_photo">add_a_photo</span>
+</div>
+<span class="text-sm font-bold text-on-surface">Upload Image</span>
+<span class="text-[10px] text-outline mt-1 uppercase font-bold">Max 5MB • JPG/PNG</span>
+</div>
+<div class="mt-6 w-full">
+<div class="flex items-center gap-3 p-3 bg-white rounded-xl">
+<span class="material-symbols-outlined text-tertiary" data-icon="info">info</span>
+<p class="text-[11px] leading-tight text-on-surface-variant font-medium">Use high-resolution photos with neutral backgrounds for a premium store look.</p>
+</div>
+</div>
+</div>
+<!-- Right Side: Product Details -->
+<div class="w-full md:w-7/12 p-10">
+<div class="flex justify-between items-start mb-8">
+<div>
+<span class="label-sm font-bold text-primary tracking-widest uppercase">Catalog Management</span>
+<h2 class="headline-sm font-bold text-on-surface mt-1">Add New Product</h2>
+</div>
+<button class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<form class="space-y-6">
+<!-- Product Name -->
+<div class="relative">
+<label class="absolute -top-2 left-4 bg-surface-container-lowest px-1 text-[10px] font-bold text-primary uppercase tracking-widest z-10">Product Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 focus:ring-0 focus:bg-white transition-all text-on-surface font-medium placeholder:text-outline/50 border-l-4 border-l-transparent focus:border-l-primary" placeholder="e.g. Artisan Ceramic Bowl" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Category -->
+<div class="relative">
+<label class="absolute -top-2 left-4 bg-surface-container-lowest px-1 text-[10px] font-bold text-primary uppercase tracking-widest z-10">Category</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 focus:ring-0 focus:bg-white transition-all text-on-surface font-medium appearance-none">
+<option>Select Category</option>
+<option>Lifestyle</option>
+<option>Electronics</option>
+<option>Food &amp; Beverage</option>
+<option>Apparel</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline" data-icon="expand_more">expand_more</span>
+</div>
+<!-- Initial Stock -->
+<div class="relative">
+<label class="absolute -top-2 left-4 bg-surface-container-lowest px-1 text-[10px] font-bold text-primary uppercase tracking-widest z-10">Initial Stock</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-4 px-4 focus:ring-0 focus:bg-white transition-all text-on-surface font-medium" placeholder="0" type="number"/>
+</div>
+</div>
+<!-- Price -->
+<div class="relative">
+<label class="absolute -top-2 left-4 bg-surface-container-lowest px-1 text-[10px] font-bold text-primary uppercase tracking-widest z-10">Price (USD)</label>
+<div class="flex items-center bg-surface-container-low rounded-xl focus-within:bg-white transition-all overflow-hidden border-l-4 border-l-transparent focus-within:border-l-primary">
+<span class="pl-4 text-outline font-bold">$</span>
+<input class="w-full bg-transparent border-none py-4 px-2 focus:ring-0 text-on-surface font-medium" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-4 pt-4">
+<button class="flex-1 bg-surface-container-high text-on-surface font-bold py-4 rounded-full hover:bg-surface-container-highest transition-colors uppercase tracking-widest text-xs" type="button">
+                            Cancel
+                        </button>
+<button class="flex-[2] bg-gradient-primary-secondary text-white font-bold py-4 rounded-full shadow-lg hover:shadow-xl transition-all uppercase tracking-widest text-xs" type="submit">
+                            Add Product
+                        </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</body></html>
