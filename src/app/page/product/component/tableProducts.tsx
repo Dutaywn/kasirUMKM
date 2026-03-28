@@ -9,7 +9,7 @@ interface ProductTableProps {
 type SortField = "name" | "price" | "stocks" | null;
 type SortOrder = "asc" | "desc";
 
-export default function TableProducts({ products, onEdit, onDelete }: ProductTableProps) {
+export default function TableProducts({ products, onEdit, onDelete}: ProductTableProps) {
   const [sortField, setSortField] = useState<SortField>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
 

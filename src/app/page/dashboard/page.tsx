@@ -7,10 +7,10 @@ import Sidebar from "@/app/components/Sidebar";
 import ProductCard from "@/app/components/ProductCard";
 import SideDrawer from "@/app/components/sideDrawer";
 import CartBottom from "@/app/components/CartBottom";
-import { useGetProducts, useUpdateProduct } from "@/app/hook/useProduct";
 import { useGetCategory } from "@/app/hook/useCategory";
 import { useQueryClient } from "@tanstack/react-query";
 import BottomNavBar from "@/app/components/bottomNavBar";
+import { useProduct } from "@/app/hook/useProduct";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -30,9 +30,15 @@ export default function DashboardPage() {
 
 
   // Hook TanStack Query
-  const { data: products, isLoading: isProductsLoading, isError, error } = useGetProducts();
+  const {
+      products, 
+      isLoadingProducts,
+      errorProducts,
+      deleteProduct,
+      isDeleting,
+      updateProduct,
+    } = useProduct();
   const { data: categories } = useGetCategory();
-  const updateProduct = useUpdateProduct();
 
   useEffect(() => {
     const userData = authService.getUser();
@@ -56,7 +62,7 @@ export default function DashboardPage() {
     if (!selectedProduct) return;
 
     setIsUpdating(true);
-    updateProduct.mutate(
+    updateProduct(
       {
         id: selectedProduct.id,
         data: {
@@ -209,7 +215,7 @@ export default function DashboardPage() {
         {/* Product Grid Section */}
         <section className="space-y-8">
 
-            {isProductsLoading ? (
+            {isLoadingProducts ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {[1,2,3,4,5,6,7,8].map(i => (
                 <div key={i} className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-5 h-64 animate-pulse space-y-4 shadow-sm">
@@ -226,13 +232,13 @@ export default function DashboardPage() {
                 </div>
                 ))}
             </div>
-            ) : isError ? (
+            ) : errorProducts ? (
             <div className="bg-error/10 border border-error/20 p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-3">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-error shadow-sm mb-2">
                     <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                 </div>
                 <h3 className="text-xl font-bold text-error">Failed to Load Products</h3>
-                <p className="text-slate-500 max-w-md">{(error as any)?.message || "Something went wrong while fetching your inventory. Please check your connection."}</p>
+                <p className="text-slate-500 max-w-md">{(errorProducts as any)?.message || "Something went wrong while fetching your inventory. Please check your connection."}</p>
                 <button 
                   onClick={() => window.location.reload()}
                   className="bg-error hover:bg-error/90 text-white px-6 py-2 rounded-xl font-bold transition-all mt-2 shadow-sm"

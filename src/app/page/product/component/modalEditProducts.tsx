@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useUpdateProduct } from "@/app/hook/useProduct";
+import { useProduct } from "@/app/hook/useProduct";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetCategory, Category } from "@/app/hook/useCategory";
 
@@ -13,7 +13,7 @@ interface ModalEditProps {
 
 export default function ModalEditProducts({ isOpen, onClose, product }: ModalEditProps) {
   const queryClient = useQueryClient();
-  const { mutate: updateProduct, isPending } = useUpdateProduct();
+  const { updateProduct, isUpdating } = useProduct();
   const { data: categories } = useGetCategory();
 
   
@@ -145,10 +145,10 @@ export default function ModalEditProducts({ isOpen, onClose, product }: ModalEdi
           <div className="pt-4">
             <button
               type="submit"
-              disabled={isPending}
+              disabled={isUpdating}
               className="w-full cta-gradient disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-2xl transition-all shadow-md active:scale-[0.98] flex items-center justify-center gap-2"
             >
-              {isPending ? (
+              {isUpdating ? (
                 <>
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   Updating...

@@ -1,40 +1,57 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { productService } from "@/service/prodcutService";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { productService, ProductItem, CreateProductPayload, UpdateProductPayload } from "../../service/productService";
 
-export const useGetProducts = () => {
-  return useQuery({
+export const useProduct = () => {
+  const queryClient = useQueryClient();
+
+  const { data: products, isLoading: isLoadingProducts, error: errorProducts } = useQuery<ProductItem[]>({
     queryKey: ["products"],
     queryFn: productService.getAll,
-    // Safely extract the array if the backend wraps it in data or products
-    select: (data) => {
+    select: (data: any) => {
       if (Array.isArray(data)) return data;
       return data?.data || data?.products || [];
     },
   });
-};
 
-export const useGetProductById = (id: string) => {
-  return useQuery({
-    queryKey: ["product", id],
-    queryFn: () => productService.getById(id),
+  const createProductMutation = useMutation({
+    mutationFn: (data: CreateProductPayload) => productService.create(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
   });
-};
 
-export const useCreateProduct = () => {
-  return useMutation({
-    mutationFn: productService.create,
+  const updateProductMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: UpdateProductPayload }) => productService.update(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
   });
-};
 
-export const useUpdateProduct = () => {
-  return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: any }) => productService.update(id, data),
+  const deleteProductMutation = useMutation({
+    mutationFn: (id: string) => productService.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
   });
-};
 
+  const getProductByIdQuery = (id: string) => {
+    return useQuery<ProductItem>({
+      queryKey: ["product", id],
+      queryFn: () => productService.getById(id),
+      enabled: !!id,
+    });
+  };
 
-export const useDeleteProduct = () => {
-  return useMutation({
-    mutationFn: productService.delete,
-  });
+  return {
+    products,
+    isLoadingProducts,
+    errorProducts,
+    createProduct: createProductMutation.mutateAsync,
+    isCreating: createProductMutation.isPending,
+    updateProduct: updateProductMutation.mutateAsync,
+    isUpdating: updateProductMutation.isPending,
+    deleteProduct: deleteProductMutation.mutateAsync,
+    isDeleting: deleteProductMutation.isPending,
+    getProductByIdQuery,
+  };
 };

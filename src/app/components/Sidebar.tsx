@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { authService } from "@/service/authService";
 import { useRouter, usePathname } from "next/navigation";
+import { Home, Package, ShoppingCart, Wallet, FileText, LogOut, LucideIcon } from "lucide-react";
 
 export default function Sidebar() {
   const [user, setUser] = useState<any>(null);
@@ -13,10 +14,12 @@ export default function Sidebar() {
   }, []);
   const router = useRouter();
 
-  const menuItems = [
-    { name: "Dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6", path: "/page/dashboard" },
-    { name: "Products", icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4", path: "/page/product" },
-    { name: "Order", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z", path: "/page/orders" },
+  const menuItems: { name: string; icon: LucideIcon; path: string }[] = [
+    { name: "Home", icon: Home, path: "/page/dashboard" },
+    { name: "Barang", icon: Package, path: "/page/product" },
+    { name: "Pesanan", icon: ShoppingCart, path: "/page/orders" },
+    { name: "Pengeluaran", icon: Wallet, path: "/page/expenditures" },
+    { name: "Laporan", icon: FileText, path: "/page/report" },
   ];
 
   const handleLogout = async () => {
@@ -38,12 +41,10 @@ export default function Sidebar() {
             return (
               <button
                 key={item.name}
-                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 active:scale-95 ${isActive ? "bg-white/50 text-primary font-bold border-l-4 border-primary shadow-sm" : "text-slate-500 hover:text-primary hover:bg-white/80"}`}
+                className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 active:scale-95 ${isActive ? "bg-white/50 text-primary font-bold border-l-4 border-primary shadow-sm" : "text-slate-500 hover:text-primary hover:bg-white/80 cursor-pointer"}`}
                 onClick={() => router.push(item.path)}
               >
-                <svg className={`w-5 h-5 transition-colors ${isActive ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
-                </svg>
+                <item.icon className={`w-5 h-5 transition-colors ${isActive ? "text-primary" : "text-slate-400 group-hover:text-primary"}`} />
                 <span className="text-sm font-bold uppercase tracking-wide">{item.name}</span>
               </button>
             );
@@ -64,11 +65,9 @@ export default function Sidebar() {
         </div>
         <button
           onClick={handleLogout}
-          className="w-full text-error hover:bg-error/10 py-3 rounded-xl text-sm font-bold uppercase tracking-wide transition-colors flex items-center justify-center gap-3 active:scale-95"
+          className="w-full text-error hover:bg-error/10 py-3 rounded-xl text-sm font-bold uppercase tracking-wide transition-colors flex items-center justify-center gap-3 active:scale-95 cursor-pointer"
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
+          <LogOut className="w-5 h-5" />
           Logout
         </button>
       </div>

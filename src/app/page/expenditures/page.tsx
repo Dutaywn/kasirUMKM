@@ -1,44 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { authService } from "@/service/authService";
+import React, { useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
-import TableProducts from "./component/tableProducts";
-import ModalTambahProducts from "./component/modalTambahProducts";
-import ModalEditProducts from "./component/modalEditProducts";
-import ModalConfirm from "@/app/components/modalConfirm";
-import ModalAlert from "@/app/components/modalAlert";
 import BottomNavBar from "@/app/components/bottomNavBar";
-import { useProduct } from "@/app/hook/useProduct";
+import TableExpenditures from "./component/tableExpenditures";
+import ModalExpenditures from "./component/modalExpenditures";
+import ModalEditExpenditures from "./component/modalEditExpenditures";
+import { Expenditure } from "@/service/expService";
+import { Plus } from "lucide-react";
+import { useExpenditures } from "@/app/hook/useExp";
+import ModalAlert from "@/app/components/modalAlert";
+import ModalConfirm from "@/app/components/modalConfirm";
 
-export default function ProductPage() {
-  const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-  const [isAuthLoading, setIsAuthLoading] = useState(true);
-
-  // States for Modals
-  const [isModalTambahOpen, setIsModalTambahOpen] = useState(false);
-  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
-
-  // TanStack Query Hooks
+export default function ExpendituresPage() {
   const {
-    products,
-    isLoadingProducts,
-    errorProducts,
-    deleteProduct,
+    expenditures,
+    isLoadingExpenditures,
+    errorExpenditures,
+    deleteExpenditure,
     isDeleting,
-  } = useProduct();
+  } = useExpenditures();
 
-  // Confirm modal state
+  const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Expenditure | null>(null);
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
     type: "delete";
     deleteId?: string;
   }>({ isOpen: false, type: "delete" });
 
-  // Alert modal state
   const [alertModal, setAlertModal] = useState<{
     isOpen: boolean;
     type: "success" | "error";
@@ -46,29 +37,14 @@ export default function ProductPage() {
     message: string;
   }>({ isOpen: false, type: "success", title: "", message: "" });
 
-  useEffect(() => {
-    const userData = authService.getUser();
-    if (!userData) {
-      router.push("/page/login");
-    } else {
-      setUser(userData);
-      setIsAuthLoading(false);
-    }
-  }, [router]);
-
-  const handleEdit = (product: any) => {
-    setSelectedProduct(product);
+  const handleEdit = (item: Expenditure) => {
+    setSelectedItem(item);
     setIsModalEditOpen(true);
   };
-
-  const handleDelete = (id: string) => {
-    setConfirmModal({ isOpen: true, type: "delete", deleteId: id });
-  };
-
   const handleConfirm = async () => {
     try {
       if (confirmModal.type === "delete" && confirmModal.deleteId) {
-        await deleteProduct(confirmModal.deleteId);
+        await deleteExpenditure(confirmModal.deleteId);
         setConfirmModal({ isOpen: false, type: "delete" });
         setAlertModal({
           isOpen: true,
@@ -88,53 +64,52 @@ export default function ProductPage() {
     }
   };
 
+  const handleDelete = (id: number) => {
+    setConfirmModal({ isOpen: true, type: "delete", deleteId: String(id) });
+  };
+ 
+
   return (
     <div className="min-h-screen bg-surface text-on-surface flex overflow-x-hidden font-body">
-      {/* Sidebar */}
       <Sidebar />
 
-      {/* Main Content */}
       <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20 max-w-full overflow-x-hidden">
-
-        {/* Header Section */}
+        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="space-y-1">
             <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent italic">
-              PRODUCT MANAGEMENT
+              PENGELUARAN
             </h1>
             <p className="text-slate-500 text-sm font-medium">
-              Update and organize your inventory.
+              Kelola catatan pengeluaran harian toko Anda.
             </p>
           </div>
           <button
-            onClick={() => setIsModalTambahOpen(true)}
+            onClick={() => setIsModalAddOpen(true)}
             className="group relative px-8 py-4 cta-gradient text-white rounded-2xl font-bold transition-all shadow-md active:scale-95 flex items-center justify-center gap-3 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" />
-            </svg>
-            Add New Product
+            <Plus className="w-5 h-5" />
+            Tambah Pengeluaran
           </button>
         </div>
 
-        {/* Table Section */}
+        {/* Content */}
         <section>
-          {isLoadingProducts ? (
+          {isLoadingExpenditures ? (
             <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-8 space-y-4 animate-pulse">
-              <div className="h-10 bg-surface-container-high rounded-lg w-full"></div>
-              <div className="h-20 bg-surface-container-highest rounded-lg w-full"></div>
-              <div className="h-20 bg-surface-container-highest rounded-lg w-full"></div>
-              <div className="h-20 bg-surface-container-highest rounded-lg w-full"></div>
+              <div className="h-10 bg-surface-container-high rounded-lg w-full" />
+              <div className="h-16 bg-surface-container-highest rounded-lg w-full" />
+              <div className="h-16 bg-surface-container-highest rounded-lg w-full" />
             </div>
-          ) : errorProducts ? (
+          ) : errorExpenditures ? (
             <div className="bg-error/10 border border-error/20 p-8 rounded-2xl text-center">
-              <p className="text-error font-bold">Error loading products</p>
-              <p className="text-slate-500 text-sm">{(errorProducts as any)?.message}</p>
+              <p className="text-error font-bold">Error memuat data pengeluaran</p>
+              <p className="text-slate-500 text-sm">{(errorExpenditures as any)?.message}</p>
             </div>
           ) : (
-            <TableProducts
-              products={products || []}
+            <TableExpenditures
+              expenditures={expenditures || []}
               onEdit={handleEdit}
               onDelete={handleDelete}
             />
@@ -142,17 +117,31 @@ export default function ProductPage() {
         </section>
 
         {/* Modals */}
-        <ModalTambahProducts
-          isOpen={isModalTambahOpen}
-          onClose={() => setIsModalTambahOpen(false)}
+        <ModalExpenditures
+          isOpen={isModalAddOpen}
+          onClose={() => setIsModalAddOpen(false)}
+          onSuccess={() => {
+            setAlertModal({
+              isOpen: true,
+              type: "success",
+              title: "Berhasil!",
+              message: "Pengeluaran berhasil ditambahkan.",
+            });
+          }}
         />
-
-        <ModalEditProducts
+        <ModalEditExpenditures
           isOpen={isModalEditOpen}
           onClose={() => setIsModalEditOpen(false)}
-          product={selectedProduct}
+          expenditure={selectedItem}
+          onSuccess={() => {
+            setAlertModal({
+              isOpen: true,
+              type: "success",
+              title: "Berhasil!",
+              message: "Pengeluaran berhasil diupdate.",
+            });
+          }}
         />
-
         <ModalConfirm
           isOpen={confirmModal.isOpen}
           onClose={() => setConfirmModal({ isOpen: false, type: "delete" })}
@@ -170,14 +159,6 @@ export default function ProductPage() {
           title={alertModal.title}
           message={alertModal.message}
         />
-        <ModalAlert
-          isOpen={alertModal.isOpen}
-          onClose={() => setAlertModal({ ...alertModal, isOpen: false })}
-          type={alertModal.type}
-          title={alertModal.title}
-          message={alertModal.message}
-        />
-
       </main>
       <BottomNavBar />
     </div>
