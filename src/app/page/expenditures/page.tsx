@@ -1,25 +1,30 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import BottomNavBar from "@/app/components/bottomNavBar";
 import TableExpenditures from "./component/tableExpenditures";
 import ModalExpenditures from "./component/modalExpenditures";
 import ModalEditExpenditures from "./component/modalEditExpenditures";
-import { Expenditure } from "@/service/expService";
+import { Expenditure } from "@/service/api.types";
 import { Plus } from "lucide-react";
 import { useExpenditures } from "@/app/hook/useExp";
 import ModalAlert from "@/app/components/modalAlert";
 import ModalConfirm from "@/app/components/modalConfirm";
+import SearchBar from "@/app/components/SearchBar";
 
 export default function ExpendituresPage() {
+  const [searchQuery, setSearchQuery] = useState("");
   const {
     expenditures,
     isLoadingExpenditures,
     errorExpenditures,
     deleteExpenditure,
     isDeleting,
-  } = useExpenditures();
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useExpenditures(searchQuery);
 
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -67,7 +72,8 @@ export default function ExpendituresPage() {
   const handleDelete = (id: number) => {
     setConfirmModal({ isOpen: true, type: "delete", deleteId: String(id) });
   };
- 
+
+
 
   return (
     <div className="min-h-screen bg-surface text-on-surface flex overflow-x-hidden font-body">
@@ -94,8 +100,15 @@ export default function ExpendituresPage() {
           </button>
         </div>
 
+        {/* Search Bar */}
+        <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Cari pengeluaran berdasarkan nama atau catatan..."
+        />
+
         {/* Content */}
-        <section>
+        <section className="space-y-6">
           {isLoadingExpenditures ? (
             <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-8 space-y-4 animate-pulse">
               <div className="h-10 bg-surface-container-high rounded-lg w-full" />
@@ -108,11 +121,32 @@ export default function ExpendituresPage() {
               <p className="text-slate-500 text-sm">{(errorExpenditures as any)?.message}</p>
             </div>
           ) : (
-            <TableExpenditures
-              expenditures={expenditures || []}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
+            <>
+              <TableExpenditures
+                expenditures={expenditures}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+              
+              {hasNextPage && (
+                <div className="flex justify-center pt-4">
+                  <button
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    className="px-8 py-3 bg-surface-container-high hover:bg-surface-container-highest text-primary font-bold rounded-xl transition-all border border-primary/20 disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {isFetchingNextPage ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                        Memuat...
+                      </>
+                    ) : (
+                      "Muat Lebih Banyak"
+                    )}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </section>
 

@@ -27,11 +27,6 @@ interface OrderProps {
 }
 
 const OrderCard: React.FC<OrderProps> = ({ order }) => {
-  const date = new Date(order.createdAt).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
   const time = new Date(order.createdAt).toLocaleTimeString("id-ID", {
     hour: "2-digit",
     minute: "2-digit",
@@ -61,7 +56,12 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
           <div className="flex items-center gap-3 text-[11px] font-bold text-slate-500 uppercase tracking-tight">
             <span className="flex items-center gap-1.5">
               <LucideClock size={12} className="text-primary/50" />
-              {date} • {time}
+              {new Date(order.createdAt).toLocaleDateString("id-ID", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })} • {time}
             </span>
           </div>
         </div>

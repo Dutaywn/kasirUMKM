@@ -1,18 +1,7 @@
 import { authService } from "./authService";
+import { PaginatedResponse, ProductItem } from "./api.types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-
-export interface ProductItem {
-  id: number;
-  name: string | null;
-  imgUrl: string | null;
-  price: number | null;
-  categoryId: number;
-  stocks: number;
-  stockType: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface CreateProductPayload {
   name: string;
@@ -33,9 +22,15 @@ export interface UpdateProductPayload {
 }
 
 export const productService = {
-  getAll: async (): Promise<ProductItem[]> => {
+  getAll: async (page = 1, limit = 10, search = ""): Promise<PaginatedResponse<ProductItem>> => {
     const token = authService.getToken();
-    const response = await fetch(`${BASE_URL}/products`, {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...(search && { search }),
+    });
+
+    const response = await fetch(`${BASE_URL}/products?${queryParams}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

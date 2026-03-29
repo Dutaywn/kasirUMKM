@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { authService } from "@/service/authService";
 import Sidebar from "@/app/components/Sidebar";
 import ProductCard from "@/app/components/ProductCard";
+import SearchBar from "@/app/components/SearchBar";
 import SideDrawer from "@/app/components/sideDrawer";
 import CartBottom from "@/app/components/CartBottom";
 import { useGetCategory } from "@/app/hook/useCategory";
@@ -21,6 +22,7 @@ export default function DashboardPage() {
   // Filter states
   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<string>("newest");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Drawer states
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -34,8 +36,6 @@ export default function DashboardPage() {
       products, 
       isLoadingProducts,
       errorProducts,
-      deleteProduct,
-      isDeleting,
       updateProduct,
     } = useProduct();
   const { data: categories } = useGetCategory();
@@ -95,7 +95,16 @@ export default function DashboardPage() {
       items = items.filter(p => p.categoryId === selectedCategoryId);
     }
 
-    // 2. Sort
+    // 2. Filter by search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      items = items.filter((p: any) =>
+        (p.name || "").toLowerCase().includes(q) ||
+        (p.category?.name || "").toLowerCase().includes(q)
+      );
+    }
+
+    // 3. Sort
     switch (sortBy) {
       case "name":
         return items.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
@@ -109,7 +118,7 @@ export default function DashboardPage() {
       default:
         return items.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
-  }, [products, sortBy, selectedCategoryId]);
+  }, [products, sortBy, selectedCategoryId, searchQuery]);
 
   // if (isAuthLoading) {
   //   return (
@@ -164,6 +173,14 @@ export default function DashboardPage() {
             </div>
           </div>
         </header>
+
+        {/* Search Bar */}
+        <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Cari produk berdasarkan nama atau kategori..."
+          resultCount={searchQuery ? filteredAndSortedProducts.length : undefined}
+        />
 
         {/* Category Filter Slide - Editorial Tabs */}
         <section className="relative overflow-visible z-10 border-b border-outline-variant/20 mb-6">

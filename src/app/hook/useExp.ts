@@ -1,15 +1,27 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { expService, CreateExpenditureDTO, UpdateExpenditureDTO, Expenditure } from "../../service/expService";
-export const useExpenditures = () => {
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
+import { expService, CreateExpenditureDTO, UpdateExpenditureDTO } from "../../service/expService";
+import { Expenditure } from "../../service/api.types";
+
+export const useExpenditures = (search = "") => {
     const queryClient = useQueryClient();
-    const { data: expenditures, isLoading: isLoadingExpenditures, error: errorExpenditures } = useQuery<Expenditure[]>({
-        queryKey: ["expenditures"],
-        queryFn: expService.getAll,
-        select: (data: any) => {
-            if (Array.isArray(data)) return data;
-            return data?.data || [];
+    const {
+        data,
+        isLoading: isLoadingExpenditures,
+        isError: errorExpenditures,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage
+    } = useInfiniteQuery({
+        queryKey: ["expenditures", search],
+        queryFn: ({ pageParam = 1 }) => expService.getAll(pageParam, 12, search),
+        getNextPageParam: (lastPage) => {
+            const { page, totalPages } = lastPage.pagination;
+            return page < totalPages ? page + 1 : undefined;
         },
+        initialPageParam: 1,
     });
+
+    const expenditures = data?.pages.flatMap((page) => page.data) ?? [];
 
     const useCreateExpenditure = useMutation({
         mutationFn: (data: CreateExpenditureDTO) => expService.create(data),
@@ -36,6 +48,9 @@ return {
     expenditures,
     isLoadingExpenditures,
     errorExpenditures,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     createExpenditure: useCreateExpenditure.mutateAsync,
     isCreating: useCreateExpenditure.isPending,
     updateExpenditure: useUpdateExpenditure.mutateAsync,

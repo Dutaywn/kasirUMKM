@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "@/service/authService";
 import Sidebar from "@/app/components/Sidebar";
@@ -10,6 +10,7 @@ import ModalEditProducts from "./component/modalEditProducts";
 import ModalConfirm from "@/app/components/modalConfirm";
 import ModalAlert from "@/app/components/modalAlert";
 import BottomNavBar from "@/app/components/bottomNavBar";
+import SearchBar from "@/app/components/SearchBar";
 import { useProduct } from "@/app/hook/useProduct";
 
 export default function ProductPage() {
@@ -21,6 +22,7 @@ export default function ProductPage() {
   const [isModalTambahOpen, setIsModalTambahOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // TanStack Query Hooks
   const {
@@ -29,7 +31,10 @@ export default function ProductPage() {
     errorProducts,
     deleteProduct,
     isDeleting,
-  } = useProduct();
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useProduct(searchQuery);
 
   // Confirm modal state
   const [confirmModal, setConfirmModal] = useState<{
@@ -118,8 +123,15 @@ export default function ProductPage() {
           </button>
         </div>
 
+        {/* Search Bar */}
+        <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Cari produk berdasarkan nama atau kategori..."
+        />
+
         {/* Table Section */}
-        <section>
+        <section className="space-y-6">
           {isLoadingProducts ? (
             <div className="bg-surface-container border border-outline-variant/30 rounded-2xl p-8 space-y-4 animate-pulse">
               <div className="h-10 bg-surface-container-high rounded-lg w-full"></div>
@@ -133,11 +145,32 @@ export default function ProductPage() {
               <p className="text-slate-500 text-sm">{(errorProducts as any)?.message}</p>
             </div>
           ) : (
-            <TableProducts
-              products={products || []}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
+            <>
+              <TableProducts
+                products={products}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+              
+              {hasNextPage && (
+                <div className="flex justify-center pt-4">
+                  <button
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    className="px-8 py-3 bg-surface-container-high hover:bg-surface-container-highest text-primary font-bold rounded-xl transition-all border border-primary/20 disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {isFetchingNextPage ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                        Memuat...
+                      </>
+                    ) : (
+                      "Muat Lebih Banyak"
+                    )}
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </section>
 

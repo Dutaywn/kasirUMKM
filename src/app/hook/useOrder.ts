@@ -1,5 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, useInfiniteQuery } from "@tanstack/react-query";
 import { orderService, CreateOrderDTO } from "@/service/orderService";
+import { PaginatedResponse, Order } from "@/service/api.types";
 
 export const useCreateOrder = () => {
   const queryClient = useQueryClient();
@@ -14,17 +15,35 @@ export const useCreateOrder = () => {
   });
 };
 
-export const useGetOrder = () => {
-  return useQuery({
-    queryKey: ["orders"],
-    queryFn: orderService.getAll,
-    // Safely extract the array from the backend response { message, data }
-    select: (data) => {
-      if (Array.isArray(data)) return data;
-      return data?.data || [];
+export const useGetOrder = (search = "") => {
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["orders", search],
+    queryFn: ({ pageParam = 1 }) => orderService.getAll(pageParam, 10, search),
+    getNextPageParam: (lastPage) => {
+      const { page, totalPages } = lastPage.pagination;
+      return page < totalPages ? page + 1 : undefined;
     },
+    initialPageParam: 1,
   });
-}
+
+  const orders = data?.pages.flatMap((page) => page.data) ?? [];
+
+  return {
+    orders,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  };
+};
 
 export const useGetOrderById = (id: string) => {
   return useQuery({

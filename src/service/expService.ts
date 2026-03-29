@@ -1,16 +1,7 @@
 import { authService } from "./authService";
+import { Expenditure, PaginatedResponse } from "./api.types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-
-export interface Expenditure {
-  id: number;
-  name: string;
-  price: number;
-  note: string;
-  userId: number;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface CreateExpenditureDTO {
   name: string;
@@ -26,9 +17,15 @@ export interface UpdateExpenditureDTO {
 }
 
 export const expService = {
-  getAll: async (): Promise<Expenditure[]> => {
+  getAll: async (page = 1, limit = 10, search = ""): Promise<PaginatedResponse<Expenditure>> => {
     const token = authService.getToken();
-    const response = await fetch(`${BASE_URL}/expenditures`, {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...(search && { search }),
+    });
+
+    const response = await fetch(`${BASE_URL}/expenditures?${queryParams}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

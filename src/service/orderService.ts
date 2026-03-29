@@ -1,4 +1,5 @@
 import { authService } from "./authService";
+import { Order, PaginatedResponse } from "./api.types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
@@ -29,9 +30,15 @@ export const orderService = {
     return response.json();
   },
 
-  getAll : async () => {
+  getAll: async (page = 1, limit = 10, search = ""): Promise<PaginatedResponse<Order>> => {
     const token = authService.getToken();
-    const response = await fetch(`${BASE_URL}/orders`, {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...(search && { search }),
+    });
+
+    const response = await fetch(`${BASE_URL}/orders?${queryParams}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

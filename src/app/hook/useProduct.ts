@@ -1,17 +1,29 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { productService, ProductItem, CreateProductPayload, UpdateProductPayload } from "../../service/productService";
+import { useInfiniteQuery, useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { productService, CreateProductPayload, UpdateProductPayload } from "../../service/productService";
+import { ProductItem } from "../../service/api.types";
 
-export const useProduct = () => {
+export const useProduct = (search = "") => {
   const queryClient = useQueryClient();
 
-  const { data: products, isLoading: isLoadingProducts, error: errorProducts } = useQuery<ProductItem[]>({
-    queryKey: ["products"],
-    queryFn: productService.getAll,
-    select: (data: any) => {
-      if (Array.isArray(data)) return data;
-      return data?.data || data?.products || [];
+  const {
+    data,
+    isLoading: isLoadingProducts,
+    isError: errorProducts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["products", search],
+    queryFn: ({ pageParam = 1 }) => productService.getAll(pageParam, 12, search),
+    getNextPageParam: (lastPage) => {
+      const { page, totalPages } = lastPage.pagination;
+      return page < totalPages ? page + 1 : undefined;
     },
+    initialPageParam: 1,
+    
   });
+
+  const products = data?.pages.flatMap((page) => page.data) ?? [];
 
   const createProductMutation = useMutation({
     mutationFn: (data: CreateProductPayload) => productService.create(data),
@@ -46,6 +58,9 @@ export const useProduct = () => {
     products,
     isLoadingProducts,
     errorProducts,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     createProduct: createProductMutation.mutateAsync,
     isCreating: createProductMutation.isPending,
     updateProduct: updateProductMutation.mutateAsync,

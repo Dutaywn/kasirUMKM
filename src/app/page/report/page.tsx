@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useReport } from "../../hook/useReport";
 import CardReport from "../../components/cardReport";
 import ModalAlert from "@/app/components/modalAlert";
@@ -8,10 +8,21 @@ import { PlusCircle, FileText, ArrowRight } from "lucide-react";
 import Sidebar from "@/app/components/Sidebar";
 import BottomNavBar from "@/app/components/bottomNavBar";
 import ModalConfirm from "@/app/components/modalConfirm";
+import SearchBar from "@/app/components/SearchBar";
 
 export default function ReportPage() {
-  const { reports, isLoadingReports, generateDaily, isGenerating, deleteReport, isDeleting } = useReport();
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const {
+    reports,
+    isLoadingReports,
+    generateDaily,
+    isGenerating,
+    deleteReport,
+    isDeleting,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useReport(searchQuery);
   // Confirm modal state
   const [confirmModal, setConfirmModal] = useState<{
     isOpen: boolean;
@@ -93,8 +104,15 @@ export default function ReportPage() {
           </button>
         </div>
 
+        {/* Search Bar */}
+        <SearchBar
+          value={searchQuery}
+          onChange={setSearchQuery}
+          placeholder="Cari laporan berdasarkan tanggal, tipe, atau produk..."
+        />
+
         {/* Content */}
-        <section>
+        <section className="space-y-6">
           {isLoadingReports ? (
             <div className="flex flex-col gap-4">
               {[1, 2, 3].map((i) => (
@@ -102,16 +120,37 @@ export default function ReportPage() {
               ))}
             </div>
           ) : reports && reports.length > 0 ? (
-            <div className="flex flex-col gap-4">
-              {reports.map((report) => (
-                <CardReport
-                  key={report.id}
-                  report={report}
-                  onDelete={openDeleteConfirm}
-                  isDeleting={isDeleting}
-                />
-              ))}
-            </div>
+            <>
+              <div className="flex flex-col gap-4">
+                {reports.map((report: any) => (
+                  <CardReport
+                    key={report.id}
+                    report={report}
+                    onDelete={openDeleteConfirm}
+                    isDeleting={isDeleting}
+                  />
+                ))}
+              </div>
+
+              {hasNextPage && (
+                <div className="flex justify-center pt-4">
+                  <button
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    className="px-8 py-3 bg-surface-container-high hover:bg-surface-container-highest text-primary font-bold rounded-xl transition-all border border-primary/20 disabled:opacity-50 flex items-center gap-2"
+                  >
+                    {isFetchingNextPage ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                        Memuat...
+                      </>
+                    ) : (
+                      "Muat Lebih Banyak"
+                    )}
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-300 flex flex-col items-center justify-center">
               <div className="bg-gray-50 rounded-full p-4 mb-3">

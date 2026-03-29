@@ -1,25 +1,7 @@
 import { authService } from "./authService";
+import { PaginatedResponse, ReportItem } from "./api.types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
-
-export interface TopProduct {
-  name: string;
-  quantity: number;
-  productId: number;
-}
-
-export interface ReportItem {
-  id: number;
-  date: string;
-  periodType: string;
-  totalIncome: number;
-  totalExpense: number;
-  netProfit: number;
-  totalOrders: number;
-  topProductsData: TopProduct[];
-  createdAt: string;
-  updatedAt: string;
-}
 
 export interface ReportResponse {
   message?: string;
@@ -52,9 +34,15 @@ export const reportService = {
     return response.json();
   },
 
-  getAll: async (): Promise<ReportItem[]> => {
+  getAll: async (page = 1, limit = 10, search = ""): Promise<PaginatedResponse<ReportItem>> => {
     const token = authService.getToken();
-    const response = await fetch(`${BASE_URL}/reports`, {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...(search && { search }),
+    });
+
+    const response = await fetch(`${BASE_URL}/reports?${queryParams}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
