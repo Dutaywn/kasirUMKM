@@ -11,6 +11,11 @@ import SearchBar from "@/app/components/SearchBar";
 
 export default function OrdersPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   const {
     orders,
     isLoading,
@@ -18,7 +23,13 @@ export default function OrdersPage() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetOrder(searchQuery);
+  } = useGetOrder({
+    search: searchQuery,
+    paymentStatus,
+    paymentMethod,
+    startDate,
+    endDate,
+  });
 
 
   return (
@@ -40,12 +51,81 @@ export default function OrdersPage() {
           </div>
         </div>
 
-        {/* Search Bar */}
-        <SearchBar
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Cari pesanan berdasarkan ID, hari, produk, atau metode bayar..."
-        />
+        {/* Filters & Search */}
+        <div className="space-y-4">
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder="Cari pesanan (ID, Nama Pelanggan, Produk)..."
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            {/* Payment Status */}
+            <div>
+              <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block ml-2">Status Bayar</label>
+              <select
+                value={paymentStatus}
+                onChange={(e) => setPaymentStatus(e.target.value)}
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+              >
+                <option value="">Semua Status</option>
+                <option value="PAID">Lunas (PAID)</option>
+                <option value="PENDING">Menunggu (PENDING)</option>
+              </select>
+            </div>
+
+            {/* Payment Method */}
+            <div>
+              <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block ml-2">Metode Bayar</label>
+              <select
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+              >
+                <option value="">Semua Metode</option>
+                <option value="CASH">Tunai (CASH)</option>
+                <option value="QRIS">QRIS</option>
+                <option value="TRANSFER">Transfer</option>
+              </select>
+            </div>
+
+            {/* Start Date */}
+            <div>
+              <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block ml-2">Dari Tanggal</label>
+              <input
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+              />
+            </div>
+
+            {/* End Date */}
+            <div>
+              <label className="text-[10px] uppercase font-bold text-slate-400 mb-1 block ml-2">Sampai Tanggal</label>
+              <input
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+              />
+            </div>
+          </div>
+          
+          {(paymentStatus || paymentMethod || startDate || endDate) && (
+             <button 
+              onClick={() => {
+                setPaymentStatus("");
+                setPaymentMethod("");
+                setStartDate("");
+                setEndDate("");
+              }}
+              className="text-xs text-primary font-bold hover:underline ml-2"
+             >
+               Reset Filter
+             </button>
+          )}
+        </div>
 
         {/* Content */}
         <section className="space-y-6">

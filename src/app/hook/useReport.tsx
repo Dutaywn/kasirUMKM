@@ -2,7 +2,12 @@ import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-q
 import { reportService } from "../../service/reportService";
 import { ReportItem } from "../../service/api.types";
 
-export const useReport = (search = "") => {
+export const useReport = (filters: {
+  search?: string;
+  startDate?: string;
+  endDate?: string;
+  period?: string;
+} = {}) => {
   const queryClient = useQueryClient();
 
   const {
@@ -13,19 +18,21 @@ export const useReport = (search = "") => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["reports", search],
-    queryFn: ({ pageParam = 1 }) => reportService.getAll(pageParam, 10, search),
+    queryKey: ["reports", filters],
+    queryFn: ({ pageParam = 1 }) => reportService.getAll(pageParam, 10, filters),
     getNextPageParam: (lastPage) => {
       const { page, totalPages } = lastPage.pagination;
       return page < totalPages ? page + 1 : undefined;
     },
     initialPageParam: 1,
   });
+  // console.log(filters)
 
   const reports = data?.pages.flatMap((page) => page.data) ?? [];
 
-  const generateDailyMutation = useMutation({
-    mutationFn: reportService.generateDaily,
+  const generateReportMutation = useMutation({
+    mutationFn: (data: { startDate: string; endDate: string; periodType: string }) => 
+      reportService.generateReport(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["reports"] });
     },
@@ -45,8 +52,8 @@ export const useReport = (search = "") => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    generateDaily: generateDailyMutation.mutateAsync,
-    isGenerating: generateDailyMutation.isPending,
+    generateReport: generateReportMutation.mutateAsync,
+    isGenerating: generateReportMutation.isPending,
     deleteReport: deleteReportMutation.mutateAsync,
     isDeleting: deleteReportMutation.isPending,
   };

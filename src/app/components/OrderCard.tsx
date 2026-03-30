@@ -18,6 +18,7 @@ interface OrderItem {
 interface OrderProps {
   order: {
     id: number;
+    orderCode: string;
     totalAmount: number;
     paymentMethod: string;
     paymentStatus: string;
@@ -51,7 +52,7 @@ const OrderCard: React.FC<OrderProps> = ({ order }) => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">Invoice</span>
-            <span className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">#{order.id}</span>
+            <span className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">#{order.orderCode}</span>
           </div>
           <div className="flex items-center gap-3 text-[11px] font-bold text-slate-500 uppercase tracking-tight">
             <span className="flex items-center gap-1.5">

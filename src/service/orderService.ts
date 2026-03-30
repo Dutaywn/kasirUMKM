@@ -30,13 +30,30 @@ export const orderService = {
     return response.json();
   },
 
-  getAll: async (page = 1, limit = 10, search = ""): Promise<PaginatedResponse<Order>> => {
+  getAll: async (
+    page = 1,
+    limit = 10,
+    filters: {
+      search?: string;
+      paymentStatus?: string;
+      paymentMethod?: string;
+      startDate?: string;
+      endDate?: string;
+    } = {}
+  ): Promise<PaginatedResponse<Order>> => {
     const token = authService.getToken();
-    const queryParams = new URLSearchParams({
+    const params: any = {
       page: page.toString(),
       limit: limit.toString(),
-      ...(search && { search }),
-    });
+    };
+
+    if (filters.search) params.search = filters.search;
+    if (filters.paymentStatus) params.paymentStatus = filters.paymentStatus;
+    if (filters.paymentMethod) params.paymentMethod = filters.paymentMethod;
+    if (filters.startDate) params.startDate = filters.startDate;
+    if (filters.endDate) params.endDate = filters.endDate;
+
+    const queryParams = new URLSearchParams(params);
 
     const response = await fetch(`${BASE_URL}/orders?${queryParams}`, {
       method: "GET",

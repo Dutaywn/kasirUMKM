@@ -16,31 +16,52 @@ export interface ReportResponse {
 }
 
 export const reportService = {
-  generateDaily: async (): Promise<any> => {
+  generateReport: async (data: {
+    startDate: string;
+    endDate: string;
+    periodType: string;
+  }): Promise<any> => {
     const token = authService.getToken();
-    const response = await fetch(`${BASE_URL}/reports/generate-daily`, {
+    const response = await fetch(`${BASE_URL}/reports/generate`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(data),
     });
+    // console.log(data)
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.message || "Gagal membuat laporan harian");
+      throw new Error(errorData.message || "Gagal membuat laporan");
     }
 
     return response.json();
   },
 
-  getAll: async (page = 1, limit = 10, search = ""): Promise<PaginatedResponse<ReportItem>> => {
+  getAll: async (
+    page = 1,
+    limit = 10,
+    filters: {
+      search?: string;
+      startDate?: string;
+      endDate?: string;
+      period?: string;
+    } = {}
+  ): Promise<PaginatedResponse<ReportItem>> => {
     const token = authService.getToken();
-    const queryParams = new URLSearchParams({
+    const params: any = {
       page: page.toString(),
       limit: limit.toString(),
-      ...(search && { search }),
-    });
+    };
+
+    if (filters.search) params.search = filters.search;
+    if (filters.startDate) params.startDate = filters.startDate;
+    if (filters.endDate) params.endDate = filters.endDate;
+    if (filters.period) params.period = filters.period;
+
+    const queryParams = new URLSearchParams(params);
 
     const response = await fetch(`${BASE_URL}/reports?${queryParams}`, {
       method: "GET",

@@ -15,7 +15,13 @@ export const useCreateOrder = () => {
   });
 };
 
-export const useGetOrder = (search = "") => {
+export const useGetOrder = (filters: {
+  search?: string;
+  paymentStatus?: string;
+  paymentMethod?: string;
+  startDate?: string;
+  endDate?: string;
+} = {}) => {
   const {
     data,
     isLoading,
@@ -24,8 +30,8 @@ export const useGetOrder = (search = "") => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["orders", search],
-    queryFn: ({ pageParam = 1 }) => orderService.getAll(pageParam, 10, search),
+    queryKey: ["orders", filters],
+    queryFn: ({ pageParam = 1 }) => orderService.getAll(pageParam, 10, filters),
     getNextPageParam: (lastPage) => {
       const { page, totalPages } = lastPage.pagination;
       return page < totalPages ? page + 1 : undefined;
