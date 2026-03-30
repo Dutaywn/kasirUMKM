@@ -1,6 +1,7 @@
 import React from "react";
-import { ReportItem } from "../../service/reportService";
+
 import { Trash2, ShoppingCart, CalendarDays, Clock } from "lucide-react";
+import { ReportItem } from "@/service/api.types";
 
 interface CardReportProps {
   report: ReportItem;

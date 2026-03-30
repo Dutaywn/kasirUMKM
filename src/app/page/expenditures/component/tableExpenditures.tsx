@@ -1,6 +1,6 @@
 import React from "react";
-import { Expenditure } from "@/service/expService";
 import { Pencil, Trash2, Wallet } from "lucide-react";
+import { Expenditure } from "@/service/api.types";
 
 interface TableExpendituresProps {
   expenditures: Expenditure[];

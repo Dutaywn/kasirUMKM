@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Expenditure, UpdateExpenditureDTO } from "@/service/expService";
+import { Expenditure } from "@/service/api.types";
 import { X } from "lucide-react";
 import { useExpenditures } from "@/app/hook/useExp";
+import { UpdateExpenditureDTO } from "@/service/expService";
 
 interface ModalEditExpendituresProps {  
   isOpen: boolean;
