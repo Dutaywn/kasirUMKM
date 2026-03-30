@@ -47,11 +47,37 @@ export const authService = {
     // await fetch(`${BASE_URL}/auth/logout`, { method: "POST" });
   },
 
+  async loginWithGoogle() {
+    window.location.href = `${BASE_URL}/auth/google`;
+  },
+
+  async getProfile(token: string) {
+    const response = await fetch(`${BASE_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user profile");
+    }
+
+    const data = await response.json();
+    return data.user || data; // Handle different response structures
+  },
+
   getToken() {
     if (typeof window !== "undefined") {
       return localStorage.getItem("token");
     }
     return null;
+  },
+
+  setToken(token: string) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("token", token);
+    }
   },
 
   getUser() {
@@ -60,5 +86,11 @@ export const authService = {
       return user ? JSON.parse(user) : null;
     }
     return null;
+  },
+
+  setUser(user: any) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
   },
 };

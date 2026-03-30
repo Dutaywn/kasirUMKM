@@ -1,36 +1,44 @@
-# Walkthrough - Report Service Refactor & Date Filtering
+# Walkthrough: Google OAuth Implementation
 
-I have refactored the report management system by splitting the logic into a dedicated service and implementing date range filtering.
+This update introduces Google OAuth 2.0 authentication to the Kasir UMKM backend, allowing users to sign in using their Google accounts.
 
-## Changes Made
+## Changes Overview
 
-### 1. New Report Service (`reportService.ts`)
-- Created `src/service/reportService.ts` to handle all business logic.
-- **`generateDailyReport`**: Logic for aggregating income, expenses, order counts, and top 5 products.
-- **`getReports`**: Added support for **date range filtering** using `startDate` and `endDate`.
-- **`deleteReport`**: Logic for deleting a report record.
+### 1. Database Schema Update
+Modified the `user` model in [schema.prisma](file:///c:/PROJECT/Umkm/umkm-be/prisma/schema.prisma) to support OAuth providers.
+- Added `provider` (e.g., "google") and `providerId` (Google's unique ID) fields.
+- Added `image` field to store the user's Google profile picture.
+- Made `password` field optional to allow OAuth-only accounts.
 
-### 2. Refactored Report Controller (`reportController.ts`)
-- Cleaned up `src/controller/reportController.ts` to remove direct Prisma interactions.
-- Added parameter extraction for `startDate` and `endDate` from query strings.
-- Standardized the response objects and error handling.
+### 2. Passport Configuration
+Created [passport.ts](file:///c:/PROJECT/Umkm/umkm-be/src/middleware/passport.ts) to manage the Google Strategy.
+- Configured with `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
+- Uses `findOrCreateGoogleUser` service to sync Google profiles with the local database.
 
-## How to use the new filters
+### 3. Auth Service Logic
+Updated [authService.ts](file:///c:/PROJECT/Umkm/umkm-be/src/service/authService.ts) with `findOrCreateGoogleUser`.
+- **Search by Provider ID**: First attempt to find the user by their Google ID.
+- **Search by Email**: If not found by ID, search by email. If an existing account is found, it "links" the Google profile to that account.
+- **Account Creation**: If no account exists, a new user is created with the Google profile information.
 
-From the Frontend, you can now filter reports by date range:
+### 4. API Routes & Controller
+Added OAuth endpoints in [authRoutes.ts](file:///c:/PROJECT/Umkm/umkm-be/src/route/authRoutes.ts) and [authController.ts](file:///c:/PROJECT/Umkm/umkm-be/src/controller/authController.ts).
+- `GET /api/auth/google`: Initiates the Google login flow.
+- `GET /api/auth/google/callback`: Handles the redirect from Google, generates a JWT for the user, and redirects back to the frontend with the token.
 
-```bash
-# Get all reports between Oct 1 and Oct 31, 2023
-GET /reports?startDate=2023-10-01&endDate=2023-10-31
+### 5. Server Initialization
+Updated [index.ts](file:///c:/PROJECT/Umkm/umkm-be/src/index.ts):
+- Initialized Passport middleware.
+- Configured CORS to allow the frontend URL and credentials.
 
-# Get all reports after Nov 1, 2023
-GET /reports?startDate=2023-11-01
-```
+## Verification
 
-## Verification Results
-- [x] Verified `reportService.generateDailyReport` correctly upserts data.
-- [x] Verified `reportService.getReports` correctly applies filters (period, search, and date range).
-- [x] Verified controller properly passes query parameters to the service.
+### OAuth Flow Test
+1. Access `http://localhost:3001/api/auth/google` (backend).
+2. User is redirected to Google sign-in.
+3. Upon success, Google redirects back to `/api/auth/google/callback`.
+4. Backend finds/creates the user and generates a JWT.
+5. Backend redirects to `${FRONTEND_URL}/auth-success?token=...`.
 
-> [!TIP]
-> The `search` parameter currently searches within the `periodType` field. You can extend this in `reportService.ts` if you want to search other fields in the future.
+> [!NOTE]
+> Make sure to set `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `FRONTEND_URL` in your `.env` file for this to work in production.
