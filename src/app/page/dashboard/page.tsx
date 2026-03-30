@@ -7,11 +7,14 @@ import Sidebar from "@/app/components/Sidebar";
 import ProductCard from "@/app/components/ProductCard";
 import SearchBar from "@/app/components/SearchBar";
 import SideDrawer from "@/app/components/sideDrawer";
-import CartBottom from "@/app/components/CartBottom";
 import { useGetCategory } from "@/app/hook/useCategory";
 import { useQueryClient } from "@tanstack/react-query";
 import BottomNavBar from "@/app/components/bottomNavBar";
 import { useProduct } from "@/app/hook/useProduct";
+import CartSide from "@/app/components/CartSide";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { ShoppingCart } from "lucide-react";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -29,6 +32,10 @@ export default function DashboardPage() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
   const [newStock, setNewStock] = useState<number>(0);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const totalCartItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
 
   // Hook TanStack Query
@@ -52,6 +59,15 @@ export default function DashboardPage() {
       setIsAuthLoading(false);
     }
   }, [router]);
+
+  // Auto-open cart when adding first item
+  useEffect(() => {
+    if (totalCartItems > 0 && !isCartDrawerOpen) {
+      // Small delay to ensure the user sees the product added before the drawer slides in
+      const timer = setTimeout(() => setIsCartDrawerOpen(true), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [totalCartItems]);
 
   const handleEditStock = (product: any) => {
     setSelectedProduct(product);
@@ -373,8 +389,26 @@ export default function DashboardPage() {
         )}
       </SideDrawer>
 
-      {/* Sticky Bottom Cart */}
-      <CartBottom />
+      {/* Floating Cart Button (FAB) */}
+      {totalCartItems > 0 && !isCartDrawerOpen && (
+        <button 
+          onClick={() => setIsCartDrawerOpen(true)}
+          className="fixed bottom-24 right-6 lg:bottom-8 lg:right-8 z-40 bg-primary text-white p-4 lg:p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all animate-in zoom-in duration-300 group"
+        >
+          <div className="relative">
+            <ShoppingCart size={window.innerWidth < 1024 ? 24 : 32} strokeWidth={2.5} />
+            <span className="absolute -top-2 -right-2 bg-error text-white text-[10px] lg:text-xs font-black w-5 h-5 lg:w-6 lg:h-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm group-hover:animate-bounce">
+              {totalCartItems}
+            </span>
+          </div>
+        </button>
+      )}
+
+      {/* Cart Side Drawer */}
+      <CartSide 
+        isOpen={isCartDrawerOpen} 
+        onClose={() => setIsCartDrawerOpen(false)} 
+      />
 
       {/* Mobile Nav Overlay (Optional) */}
       <BottomNavBar />
