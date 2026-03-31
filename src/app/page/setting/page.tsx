@@ -161,8 +161,8 @@ export default function SettingPage() {
 
   return (
     <MainLayout
-      title="KONFIGURASI AKUN"
-      subtitle="Kelola profil pribadi dan pengaturan operasional toko Anda."
+      title="Pengaturan"
+      subtitle="Lihat Profil dan Manage Kategori"
     >
       <div className="max-w-6xl mx-auto space-y-10">
         <div className="flex justify-between items-end mb-4">
@@ -200,9 +200,9 @@ export default function SettingPage() {
                    </span>
                 )}
               </div>
-              <button className="absolute bottom-1 right-1 p-2.5 bg-white rounded-full shadow-lg text-primary hover:bg-primary hover:text-white transition-all ring-2 ring-white border border-slate-100 cursor-pointer active:scale-90">
+              {/* <button className="absolute bottom-1 right-1 p-2.5 bg-white rounded-full shadow-lg text-primary hover:bg-primary hover:text-white transition-all ring-2 ring-white border border-slate-100 cursor-pointer active:scale-90">
                 <Camera size={18} strokeWidth={2.5} />
-              </button>
+              </button> */}
             </div>
 
             <div className="flex flex-col items-center gap-1 mb-10">
@@ -227,12 +227,12 @@ export default function SettingPage() {
               </div>
             </div>
 
-            <div className="mt-auto w-full pt-10">
+            {/* <div className="mt-auto w-full pt-10">
                <button className="w-full py-4 bg-slate-50 hover:bg-slate-100 text-slate-500 rounded-2xl text-xs font-black uppercase tracking-widest transition-all active:scale-95 border border-slate-200 flex items-center justify-center gap-2 cursor-pointer">
                  <Settings size={14} strokeWidth={3} />
                  Edit Info Profil
                </button>
-            </div>
+            </div> */}
           </section>
 
           {/* Category Management Section */}
