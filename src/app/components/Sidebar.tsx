@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { authService } from "@/service/authService";
 import { useRouter, usePathname } from "next/navigation";
-import { Home, Package, ShoppingCart, Wallet, FileText, LogOut, LucideIcon } from "lucide-react";
+import { Home, Package, ShoppingCart, Wallet, FileText, LogOut, LucideIcon, Settings } from "lucide-react";
 
 export default function Sidebar() {
   const [user, setUser] = useState<any>(null);
@@ -38,6 +38,7 @@ export default function Sidebar() {
     { name: "Pesanan", icon: ShoppingCart, path: "/page/orders" },
     { name: "Pengeluaran", icon: Wallet, path: "/page/expenditures" },
     { name: "Laporan", icon: FileText, path: "/page/report" },
+    { name: "Pengaturan", icon: Settings, path: "/page/settings" },
   ];
 
   const handleLogout = async () => {

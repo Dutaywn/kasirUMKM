@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#ffdad6",
+              "on-secondary-container": "#fffbff",
+              "tertiary-container": "#b75b00",
+              "inverse-on-surface": "#eff1f3",
+              "surface-dim": "#d8dadc",
+              "on-background": "#191c1e",
+              "primary": "#0058be",
+              "on-primary-fixed": "#001a42",
+              "primary-fixed-dim": "#adc6ff",
+              "on-surface": "#191c1e",
+              "on-secondary": "#ffffff",
+              "surface-tint": "#005ac2",
+              "error": "#ba1a1a",
+              "background": "#f7f9fb",
+              "outline": "#727785",
+              "on-surface-variant": "#424754",
+              "surface-container-high": "#e6e8ea",
+              "surface-container-low": "#f2f4f6",
+              "primary-container": "#2170e4",
+              "on-tertiary-fixed": "#311400",
+              "secondary-container": "#8455ef",
+              "secondary": "#6b38d4",
+              "inverse-primary": "#adc6ff",
+              "surface-container-highest": "#e0e3e5",
+              "primary-fixed": "#d8e2ff",
+              "tertiary": "#924700",
+              "on-primary-fixed-variant": "#004395",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#fffbff",
+              "on-secondary-fixed": "#23005c",
+              "surface-bright": "#f7f9fb",
+              "inverse-surface": "#2d3133",
+              "surface": "#f7f9fb",
+              "on-primary-container": "#fefcff",
+              "on-error": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdcc6",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed-variant": "#723600",
+              "tertiary-fixed-dim": "#ffb786",
+              "secondary-fixed": "#e9ddff",
+              "on-secondary-fixed-variant": "#5516be",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#d0bcff",
+              "outline-variant": "#c2c6d6",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-40 flex flex-col border-r border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 font-['Inter'] antialiased">
+<div class="px-6 py-8">
+<h1 class="text-lg font-bold bg-gradient-to-br from-blue-700 to-violet-600 bg-clip-text text-transparent">Kasir UMKM</h1>
+<p class="text-[11px] uppercase tracking-wider text-slate-500 mt-1 font-semibold">Premium POS</p>
+</div>
+<nav class="flex-1 space-y-1 px-2">
+<!-- Active State: Profile/Settings -->
+<a class="flex items-center gap-3 px-4 py-3 text-blue-700 dark:text-blue-400 font-semibold border-l-4 border-blue-600 bg-white dark:bg-slate-800 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Profile</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Store</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
+<span>Account</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shield">shield</span>
+<span>Security</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="text-sm">Help</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:bg-slate-100 rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-16 z-30 flex justify-between items-center px-8 w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+<div class="flex items-center gap-4">
+<h2 class="text-lg font-semibold text-blue-700 dark:text-blue-400 font-['Inter']">Settings</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center bg-surface-container-low px-4 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-on-surface" placeholder="Search settings..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full p-2 transition-all">
+<span class="material-symbols-outlined text-slate-600" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full p-2 transition-all">
+<span class="material-symbols-outlined text-slate-600" data-icon="help_outline">help_outline</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden ml-2 ring-2 ring-primary-container ring-offset-2">
+<img alt="Admin User" data-alt="professional portrait of a confident male administrative manager wearing a crisp white shirt against a neutral studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcd5CzRA4ZFsyWkiID9UuJgKPrTE5HN7uObDJc1ITlzCjcAgJfxDI9jkr0uvu0PiMRdcMWqh-DTgCONsbwrd8gFIaRG0W61UvS6Z3lpfRZ5HYjzZi8Q2o6iQx3aeYc_oJ8FFEaR4ZN5pdBQzQEiSjBXwyRov4HhyMaYaRjWaPYZo1k54MeqtJn1vZez7t6cNLN7UcB6nr5g0i9bYQruHUgmZugom6PFwnht23WeDwT1Zs0OZhQZGihWt2cvZyWPO_NtJNl65vg"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-12 pb-16 min-h-screen">
+<div class="max-w-5xl mx-auto space-y-10">
+<div class="flex justify-between items-end mb-4">
+<div class="space-y-1">
+<h3 class="text-2xl font-bold tracking-tight text-on-surface">Account Configuration</h3>
+<p class="text-on-surface-variant text-sm">Manage your personal presence and store identity across the platform.</p>
+</div>
+<button class="px-8 py-3 rounded-full bg-gradient-to-r from-[#0058be] to-[#6b38d4] text-white font-semibold text-sm shadow-lg shadow-blue-500/20 hover:scale-105 active:scale-95 transition-all">
+                    Save Changes
+                </button>
+</div>
+<!-- Bento Layout Sections -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Profile Section (Asymmetric Span) -->
+<section class="md:col-span-5 bg-surface-container-lowest rounded-xl p-8 shadow-sm transition-all hover:shadow-md border-l-4 border-primary">
+<div class="flex items-center gap-4 mb-8">
+<div class="p-2 rounded-lg bg-primary-container/10">
+<span class="material-symbols-outlined text-primary" data-icon="person">person</span>
+</div>
+<h4 class="text-lg font-bold">Profile Details</h4>
+</div>
+<div class="flex flex-col items-center mb-8">
+<div class="relative group">
+<div class="w-24 h-24 rounded-full overflow-hidden border-4 border-surface-container-low mb-4 ring-2 ring-primary/20">
+<img alt="User Profile Avatar" data-alt="clean professional avatar illustration of a male with modern hairstyle and smart casual attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3thNFM_LHS-LGGXsMHLclzhW_FG7_0Ln1TLeSFQYh68KaVNd9dq2R5nlw5Nx6E2rtt24PeVxe8XZDPwwYQiwr_1ci0U3Tlb3jibJWRAMI2rKLClufuHgCNhAGrDW3LQC2mlwOJRvv7JxkUXer2dhN3GHWaxNEKP0zQVr-aSOfgZbq6gJ_J1OLdvUep-HjbyM7OnqkbUpWYQ8k5yehgbwMtRrSpYEBucpPdUj3V-EHmk5biIyn0z93GgT6o676fJQOFpfSOO6e"/>
+</div>
+<button class="absolute bottom-4 right-0 p-2 bg-white rounded-full shadow-lg text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm" data-icon="edit">edit</span>
+</button>
+</div>
+<span class="px-4 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant text-[10px] font-bold uppercase tracking-widest">Administrator</span>
+</div>
+<div class="space-y-6">
+<div class="relative bg-surface-container-highest rounded-lg p-3 group focus-within:bg-white transition-colors">
+<span class="label-sm block text-[10px] text-outline mb-1 uppercase font-bold">Full Name</span>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium" type="text" value="Alexander Graham"/>
+</div>
+<div class="relative bg-surface-container-highest rounded-lg p-3 group focus-within:bg-white transition-colors">
+<span class="label-sm block text-[10px] text-outline mb-1 uppercase font-bold">Email Address</span>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium" type="email" value="alexander.g@kasirumkm.com"/>
+</div>
+</div>
+</section>
+<!-- Store Information Section -->
+<section class="md:col-span-7 bg-surface-container-lowest rounded-xl p-8 shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center gap-4 mb-8">
+<div class="p-2 rounded-lg bg-secondary-container/10">
+<span class="material-symbols-outlined text-secondary" data-icon="storefront">storefront</span>
+</div>
+<h4 class="text-lg font-bold text-on-surface">Store Information</h4>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="col-span-2 relative bg-surface-container-highest rounded-lg p-3 group focus-within:bg-white transition-colors">
+<span class="label-sm block text-[10px] text-outline mb-1 uppercase font-bold">Store Name</span>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium" type="text" value="Premium Coffee &amp; Roastery"/>
+</div>
+<div class="col-span-2 relative bg-surface-container-highest rounded-lg p-3 group focus-within:bg-white transition-colors">
+<span class="label-sm block text-[10px] text-outline mb-1 uppercase font-bold">Physical Address</span>
+<textarea class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium resize-none" rows="2">Jl. Senopati No. 42, Kebayoran Baru, Jakarta Selatan, 12190</textarea>
+</div>
+<div class="relative bg-surface-container-highest rounded-lg p-3 group focus-within:bg-white transition-colors">
+<span class="label-sm block text-[10px] text-outline mb-1 uppercase font-bold">Contact Number</span>
+<input class="w-full bg-transparent border-none p-0 focus:ring-0 text-sm font-medium" type="text" value="+62 812 3456 7890"/>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[10px] text-outline uppercase font-bold ml-1">Store Logo</span>
+<div class="flex items-center gap-4 border-2 border-dashed border-outline-variant rounded-lg p-2.5 h-full">
+<div class="w-10 h-10 rounded bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="image">image</span>
+</div>
+<button class="text-[11px] font-bold text-primary hover:underline">UPLOAD LOGO</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Preferences Section (Wide) -->
+<section class="md:col-span-8 bg-surface-container-lowest rounded-xl p-8 shadow-sm transition-all hover:shadow-md">
+<div class="flex items-center gap-4 mb-8">
+<div class="p-2 rounded-lg bg-tertiary-container/10">
+<span class="material-symbols-outlined text-tertiary" data-icon="tune">tune</span>
+</div>
+<h4 class="text-lg font-bold">Application Preferences</h4>
+</div>
+<div class="grid grid-cols-3 gap-8">
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider">Currency</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 h-12">
+<option>Indonesian Rupiah (IDR)</option>
+<option>US Dollar (USD)</option>
+<option>Singapore Dollar (SGD)</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider">Tax Percentage</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 h-12 pr-10" type="number" value="11"/>
+<span class="absolute right-4 top-1/2 -translate-y-1/2 text-outline font-bold">%</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider">System Language</label>
+<select class="w-full bg-surface-container-low border-none rounded-lg text-sm font-semibold focus:ring-2 focus:ring-primary/20 h-12">
+<option>English (US)</option>
+<option>Bahasa Indonesia</option>
+</select>
+</div>
+<div class="col-span-3 space-y-2 pt-4">
+<label class="text-[11px] font-bold text-outline uppercase tracking-wider">Receipt Footer Text</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl text-sm p-4 focus:ring-2 focus:ring-primary/20 min-h-[100px]" placeholder="e.g. Thank you for your purchase! Follow us on Instagram @premiumcoffee"></textarea>
+</div>
+</div>
+</section>
+<!-- Security Section (Focused) -->
+<section class="md:col-span-4 bg-surface-container-lowest rounded-xl p-8 shadow-sm transition-all hover:shadow-md bg-gradient-to-br from-white to-slate-50">
+<div class="flex items-center gap-4 mb-8">
+<div class="p-2 rounded-lg bg-red-100 dark:bg-red-900/20">
+<span class="material-symbols-outlined text-error" data-icon="security">security</span>
+</div>
+<h4 class="text-lg font-bold">Security</h4>
+</div>
+<div class="space-y-8">
+<div class="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-slate-100">
+<div class="flex flex-col">
+<span class="text-sm font-bold">Two-Factor Auth</span>
+<span class="text-[11px] text-outline">Adds a layer of safety</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="space-y-4">
+<button class="w-full flex items-center justify-center gap-2 px-6 py-4 bg-surface-container-low rounded-xl text-sm font-bold text-on-surface hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-base" data-icon="lock_reset">lock_reset</span>
+                                Change Password
+                            </button>
+<button class="w-full flex items-center justify-center gap-2 px-6 py-4 border border-error/20 text-error rounded-xl text-sm font-bold hover:bg-error-container/20 transition-all">
+<span class="material-symbols-outlined text-base" data-icon="devices">devices</span>
+                                Sign Out Other Devices
+                            </button>
+</div>
+<div class="p-4 bg-amber-50 rounded-xl border border-amber-100">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-amber-600 text-sm" data-icon="info">info</span>
+<p class="text-[11px] text-amber-800 leading-relaxed font-medium">Last password change was 3 months ago. We recommend updating it every 6 months.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

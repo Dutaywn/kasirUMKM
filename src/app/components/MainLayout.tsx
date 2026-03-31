@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import BottomNavBar from "@/app/components/bottomNavBar";
 import { SidebarMobile } from "@/app/components/sidebarMobile";
-import { Hamburger } from "lucide-react";
+import { Hamburger, Menu } from "lucide-react";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -48,7 +48,7 @@ export default function MainLayout({
               onClick={() => setIsMobileSidebarOpen(true)}
               className="lg:hidden p-3 rounded-2xl bg-white border border-outline-variant/30 text-primary shadow-sm active:scale-95 transition-all"
             >
-             <Hamburger className="w-6 h-6"/>
+             <Menu className="w-6 h-6" />
             </button>
           </div>
 
