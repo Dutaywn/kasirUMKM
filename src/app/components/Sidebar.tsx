@@ -10,7 +10,25 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    setUser(authService.getUser());
+    const fetchUser = async () => {
+      const storedUser = authService.getUser();
+      if (storedUser) {
+        setUser(storedUser);
+      } else {
+        const token = authService.getToken();
+        if (token) {
+          try {
+            const profile = await authService.getProfile(token);
+            authService.setUser(profile);
+            setUser(profile);
+          } catch (err) {
+            console.error("Failed to auto-fetch profile in Sidebar:", err);
+          }
+        }
+      }
+    };
+
+    fetchUser();
   }, []);
   const router = useRouter();
 

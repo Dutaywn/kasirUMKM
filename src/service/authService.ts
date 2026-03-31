@@ -64,7 +64,7 @@ export const authService = {
     }
 
     const data = await response.json();
-    return data.user || data; // Handle different response structures
+    return data.data || data.user || data; // Handle different response structures: {data: user}, {user: user}, or user itself
   },
 
   getToken() {
