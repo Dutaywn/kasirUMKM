@@ -48,7 +48,20 @@ export const authService = {
   },
 
   async loginWithGoogle() {
-    window.location.href = `${BASE_URL}/auth/google`;
+    // window.location.href = `${BASE_URL}/auth/google`;
+    const response = await fetch(`${BASE_URL}/auth/google`, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch user profile");
+    }
+
+    const data = await response.json();
+    if (data.token) {
+      localStorage.setItem("user", JSON.stringify(data.user));
+    }
+    return data.user || data; // Handle different response structures
   },
 
   async getProfile(token: string) {
@@ -57,7 +70,9 @@ export const authService = {
       headers: {
         "Authorization": `Bearer ${token}`,
       },
-    });
+    }
+  
+  );
 
     if (!response.ok) {
       throw new Error("Failed to fetch user profile");
