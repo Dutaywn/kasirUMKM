@@ -29,6 +29,7 @@ function AuthSuccessContent() {
       
       const user = await authService.getProfile(token);
       authService.setUser(user);
+      console.log(user);
       
       setStatus("Success! Redirecting...");
       router.push("/page/dashboard");
