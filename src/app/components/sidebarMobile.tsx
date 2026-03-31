@@ -42,7 +42,6 @@ export const SidebarMobile = ({ isOpen, onClose }: SidebarMobileProps) => {
 
   const menuItems = [
     { name: "Setting", icon: Settings, path: "/page/setting" },
-    { name: "Profil Saya", icon: User, path: "/page/profile" },
   ];
 
   const handleLogout = () => {

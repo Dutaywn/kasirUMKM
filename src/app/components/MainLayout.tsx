@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import BottomNavBar from "@/app/components/bottomNavBar";
 import { SidebarMobile } from "@/app/components/sidebarMobile";
+import { Hamburger } from "lucide-react";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -47,9 +48,7 @@ export default function MainLayout({
               onClick={() => setIsMobileSidebarOpen(true)}
               className="lg:hidden p-3 rounded-2xl bg-white border border-outline-variant/30 text-primary shadow-sm active:scale-95 transition-all"
             >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
+             <Hamburger className="w-6 h-6"/>
             </button>
           </div>
 
