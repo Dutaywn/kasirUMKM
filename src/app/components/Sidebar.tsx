@@ -38,7 +38,7 @@ export default function Sidebar() {
     { name: "Pesanan", icon: ShoppingCart, path: "/page/orders" },
     { name: "Pengeluaran", icon: Wallet, path: "/page/expenditures" },
     { name: "Laporan", icon: FileText, path: "/page/report" },
-    { name: "Pengaturan", icon: Settings, path: "/page/settings" },
+    { name: "Pengaturan", icon: Settings, path: "/page/setting" },
   ];
 
   const handleLogout = async () => {
