@@ -3,18 +3,17 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "@/service/authService";
-import Sidebar from "@/app/components/Sidebar";
 import ProductCard from "@/app/components/ProductCard";
 import SearchBar from "@/app/components/SearchBar";
 import SideDrawer from "@/app/components/sideDrawer";
 import { useGetCategory } from "@/app/hook/useCategory";
 import { useQueryClient } from "@tanstack/react-query";
-import BottomNavBar from "@/app/components/bottomNavBar";
 import { useProduct } from "@/app/hook/useProduct";
 import CartSide from "@/app/components/CartSide";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { ShoppingCart } from "lucide-react";
+import MainLayout from "@/app/components/MainLayout";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -63,7 +62,6 @@ export default function DashboardPage() {
   // Auto-open cart when adding first item
   useEffect(() => {
     if (totalCartItems > 0 && !isCartDrawerOpen) {
-      // Small delay to ensure the user sees the product added before the drawer slides in
       const timer = setTimeout(() => setIsCartDrawerOpen(true), 300);
       return () => clearTimeout(timer);
     }
@@ -108,13 +106,11 @@ export default function DashboardPage() {
   const filteredAndSortedProducts = useMemo(() => {
     if (!products) return [];
 
-    // 1. Filter by category
     let items = [...products];
     if (selectedCategoryId !== null) {
       items = items.filter(p => p.categoryId === selectedCategoryId);
     }
 
-    // 2. Filter by search query
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       items = items.filter((p: any) =>
@@ -123,7 +119,6 @@ export default function DashboardPage() {
       );
     }
 
-    // 3. Sort
     switch (sortBy) {
       case "name":
         return items.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
@@ -141,173 +136,154 @@ export default function DashboardPage() {
 
 
   return (
-    <div className="min-h-screen bg-surface text-on-surface flex overflow-x-hidden font-body">
-      {/* Sidebar */}
-      <Sidebar />
-
-      {/* Main Content */}
-      <main className="flex-1 lg:ml-64 p-4 lg:p-8 space-y-8 pb-20 max-w-full overflow-x-hidden">
-
-        {/* Header Section */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-1">
-            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent italic">
-              KASIR UMKM HEBAT
-            </h1>
-            <p className="text-slate-500 text-sm font-medium">
-              Manage and sell your premium products.
-            </p>
+    <MainLayout
+      title="KASIR UMKM HEBAT"
+      subtitle="Manage and sell your premium products."
+      headerActions={
+        <div className="relative group">
+          <span className="absolute -top-2 left-3 px-2 bg-surface text-[10px] font-bold text-primary uppercase tracking-tighter z-10">Sort By</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="bg-surface border border-outline-variant/50 text-on-surface text-sm font-bold rounded-full px-5 py-3 pr-10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer shadow-sm min-w-[180px]"
+          >
+            <option value="newest">Terbaru</option>
+            <option value="name">Nama (A-Z)</option>
+            <option value="price-low">Harga: Murah - Mahal</option>
+            <option value="price-high">Harga: Mahal - Murah</option>
+            <option value="stock-low">Stok: Terendah</option>
+          </select>
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+            </svg>
           </div>
+        </div>
+      }
+    >
+      {/* Search Bar */}
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        placeholder="Cari produk berdasarkan nama atau kategori..."
+        resultCount={searchQuery ? filteredAndSortedProducts.length : undefined}
+      />
 
-          <div className="flex items-center gap-4">
-            <div className="relative group">
-              <span className="absolute -top-2 left-3 px-2 bg-surface text-[10px] font-bold text-primary uppercase tracking-tighter z-10">Sort By</span>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-surface border border-outline-variant/50 text-on-surface text-sm font-bold rounded-full px-5 py-3 pr-10 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all appearance-none cursor-pointer shadow-sm min-w-[180px]"
+      {/* Category Filter Slide - Editorial Tabs */}
+      <section className="relative overflow-visible z-10 border-b border-outline-variant/20 mb-6">
+        <div className="flex items-center justify-between gap-4 mb-2">
+          <h2 className="text-xs font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            Kategori Produk
+          </h2>
+          {selectedCategoryId !== null && (
+            <button
+              onClick={() => setSelectedCategoryId(null)}
+              className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-error transition-colors flex items-center gap-1 group"
+            >
+              <svg className="w-3 h-3 group-hover:rotate-90 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
+              Reset Filter
+            </button>
+          )}
+        </div>
+
+        <div className="-mx-4 px-4 sm:mx-0 sm:px-0 mt-4">
+          <div className="flex items-center gap-8 overflow-x-auto hide-scrollbar pb-0">
+            <button
+              onClick={() => setSelectedCategoryId(null)}
+              className={`pb-2 whitespace-nowrap px-1 transition-colors ${selectedCategoryId === null
+                ? "text-primary font-bold border-b-2 border-primary"
+                : "text-slate-500 font-medium hover:text-primary"
+                }`}
+            >
+              Semua Produk
+            </button>
+            {categories?.map((cat: any) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategoryId(cat.id)}
+                className={`pb-2 whitespace-nowrap px-1 transition-colors ${selectedCategoryId === cat.id
+                  ? "text-primary font-bold border-b-2 border-primary"
+                  : "text-slate-500 font-medium hover:text-primary"
+                  }`}
               >
-                <option value="newest">Terbaru</option>
-                <option value="name">Nama (A-Z)</option>
-                <option value="price-low">Harga: Murah - Mahal</option>
-                <option value="price-high">Harga: Mahal - Murah</option>
-                <option value="stock-low">Stok: Terendah</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor font-bold">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
+                {cat.name}
+              </button>
+            ))}
           </div>
-        </header>
+        </div>
+      </section>
 
-        {/* Search Bar */}
-        <SearchBar
-          value={searchQuery}
-          onChange={setSearchQuery}
-          placeholder="Cari produk berdasarkan nama atau kategori..."
-          resultCount={searchQuery ? filteredAndSortedProducts.length : undefined}
-        />
-
-        {/* Category Filter Slide - Editorial Tabs */}
-        <section className="relative overflow-visible z-10 border-b border-outline-variant/20 mb-6">
-          <div className="flex items-center justify-between gap-4 mb-2">
-            <h2 className="text-xs font-black uppercase tracking-[0.3em] text-primary flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              Kategori Produk
-            </h2>
+      {/* Product Grid Section */}
+      <section className="space-y-8">
+        {isLoadingProducts ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+              <div key={i} className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-5 h-64 animate-pulse space-y-4 shadow-sm">
+                <div className="flex justify-between">
+                  <div className="w-12 h-12 bg-surface-container-high rounded-xl"></div>
+                  <div className="w-10 h-4 bg-surface-container-high rounded"></div>
+                </div>
+                <div className="w-full h-6 bg-surface-container-high rounded"></div>
+                <div className="w-1/2 h-4 bg-surface-container-high rounded"></div>
+                <div className="pt-4 border-t border-outline-variant/20 mt-4 flex justify-between items-center">
+                  <div className="w-20 h-6 bg-surface-container-high rounded"></div>
+                  <div className="w-10 h-10 bg-surface-container-high rounded-full"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : errorProducts ? (
+          <div className="bg-error/10 border border-error/20 p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-3">
+            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-error shadow-sm mb-2">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            </div>
+            <h3 className="text-xl font-bold text-error">Failed to Load Products</h3>
+            <p className="text-slate-500 max-w-md">{(errorProducts as any)?.message || "Something went wrong while fetching your inventory. Please check your connection."}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-error hover:bg-error/90 text-white px-6 py-2 rounded-xl font-bold transition-all mt-2 shadow-sm"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : filteredAndSortedProducts?.length === 0 ? (
+          <div className="bg-surface-container-high border-2 border-dashed border-outline-variant/30 p-20 rounded-[3rem] flex flex-col items-center justify-center text-center space-y-6">
+            <div className="w-24 h-24 bg-surface rounded-3xl flex items-center justify-center text-slate-400 border border-outline-variant/20 shadow-sm">
+              <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-black tracking-tight text-on-surface">No Products Found</h3>
+              <p className="text-slate-500 text-sm font-medium max-w-xs mx-auto">There are currently no products in this category.</p>
+            </div>
             {selectedCategoryId !== null && (
               <button
                 onClick={() => setSelectedCategoryId(null)}
-                className="text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-error transition-colors flex items-center gap-1 group"
+                className="text-primary font-black text-xs uppercase tracking-widest hover:text-secondary transition-colors underline underline-offset-4"
               >
-                <svg className="w-3 h-3 group-hover:rotate-90 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                Reset Filter
+                View All Products
               </button>
             )}
           </div>
-
-          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 mt-4">
-            <div className="flex items-center gap-8 overflow-x-auto hide-scrollbar pb-0">
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredAndSortedProducts?.map((product: any) => (
+              <ProductCard key={product.id} product={product} onEditStock={handleEditStock} />
+            ))}
+            {hasNextPage && (
               <button
-                onClick={() => setSelectedCategoryId(null)}
-                className={`pb-2 whitespace-nowrap px-1 transition-colors ${selectedCategoryId === null
-                    ? "text-primary font-bold border-b-2 border-primary"
-                    : "text-slate-500 font-medium hover:text-primary"
-                  }`}
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="col-span-full bg-primary/10 hover:bg-primary/20 text-primary font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2"
               >
-                Semua Produk
+                {isFetchingNextPage ? "Memuat..." : "Muat Lebih Banyak"}
               </button>
-              {categories?.map((cat: any) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategoryId(cat.id)}
-                  className={`pb-2 whitespace-nowrap px-1 transition-colors ${selectedCategoryId === cat.id
-                      ? "text-primary font-bold border-b-2 border-primary"
-                      : "text-slate-500 font-medium hover:text-primary"
-                    }`}
-                >
-                  {cat.name}
-                </button>
-              ))}
-            </div>
+            )}
           </div>
-        </section>
+        )}
+      </section>
 
-        {/* Product Grid Section */}
-        <section className="space-y-8">
-
-          {isLoadingProducts ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                <div key={i} className="bg-surface-container-lowest border border-outline-variant/20 rounded-xl p-5 h-64 animate-pulse space-y-4 shadow-sm">
-                  <div className="flex justify-between">
-                    <div className="w-12 h-12 bg-surface-container-high rounded-xl"></div>
-                    <div className="w-10 h-4 bg-surface-container-high rounded"></div>
-                  </div>
-                  <div className="w-full h-6 bg-surface-container-high rounded"></div>
-                  <div className="w-1/2 h-4 bg-surface-container-high rounded"></div>
-                  <div className="pt-4 border-t border-outline-variant/20 mt-4 flex justify-between items-center">
-                    <div className="w-20 h-6 bg-surface-container-high rounded"></div>
-                    <div className="w-10 h-10 bg-surface-container-high rounded-full"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : errorProducts ? (
-            <div className="bg-error/10 border border-error/20 p-8 rounded-2xl flex flex-col items-center justify-center text-center space-y-3">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-error shadow-sm mb-2">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-              </div>
-              <h3 className="text-xl font-bold text-error">Failed to Load Products</h3>
-              <p className="text-slate-500 max-w-md">{(errorProducts as any)?.message || "Something went wrong while fetching your inventory. Please check your connection."}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="bg-error hover:bg-error/90 text-white px-6 py-2 rounded-xl font-bold transition-all mt-2 shadow-sm"
-              >
-                Try Again
-              </button>
-            </div>
-          ) : filteredAndSortedProducts?.length === 0 ? (
-            <div className="bg-surface-container-high border-2 border-dashed border-outline-variant/30 p-20 rounded-[3rem] flex flex-col items-center justify-center text-center space-y-6">
-              <div className="w-24 h-24 bg-surface rounded-3xl flex items-center justify-center text-slate-400 border border-outline-variant/20 shadow-sm">
-                <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-              </div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-black tracking-tight text-on-surface">No Products Found</h3>
-                <p className="text-slate-500 text-sm font-medium max-w-xs mx-auto">There are currently no products in this category.</p>
-              </div>
-              {selectedCategoryId !== null && (
-                <button
-                  onClick={() => setSelectedCategoryId(null)}
-                  className="text-primary font-black text-xs uppercase tracking-widest hover:text-secondary transition-colors underline underline-offset-4"
-                >
-                  View All Products
-                </button>
-              )}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredAndSortedProducts?.map((product: any) => (
-                <ProductCard key={product.id} product={product} onEditStock={handleEditStock} />
-              ))}
-              {hasNextPage && (
-                <button
-                  onClick={() => fetchNextPage()}
-                  disabled={isFetchingNextPage}
-                  className="col-span-full bg-primary/10 hover:bg-primary/20 text-primary font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-2"
-                >
-                  {isFetchingNextPage ? "Memuat..." : "Muat Lebih Banyak"}
-                </button>
-              )}
-            </div>
-          )}
-
-        </section>
-      </main>
-
-      {/* Side Drawer for Editing Stock */}
+      {/* Modals & Drawers */}
       <SideDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
@@ -389,14 +365,14 @@ export default function DashboardPage() {
         )}
       </SideDrawer>
 
-      {/* Floating Cart Button (FAB) */}
+      {/* Floating Cart Button */}
       {totalCartItems > 0 && !isCartDrawerOpen && (
-        <button 
+        <button
           onClick={() => setIsCartDrawerOpen(true)}
           className="fixed bottom-24 right-6 lg:bottom-8 lg:right-8 z-40 bg-primary text-white p-4 lg:p-5 rounded-full shadow-2xl hover:scale-110 active:scale-95 transition-all animate-in zoom-in duration-300 group"
         >
           <div className="relative">
-            <ShoppingCart size={window.innerWidth < 1024 ? 24 : 32} strokeWidth={2.5} />
+            <ShoppingCart size={32} strokeWidth={2.5} />
             <span className="absolute -top-2 -right-2 bg-error text-white text-[10px] lg:text-xs font-black w-5 h-5 lg:w-6 lg:h-6 rounded-full flex items-center justify-center border-2 border-white shadow-sm group-hover:animate-bounce">
               {totalCartItems}
             </span>
@@ -404,14 +380,11 @@ export default function DashboardPage() {
         </button>
       )}
 
-      {/* Cart Side Drawer */}
-      <CartSide 
-        isOpen={isCartDrawerOpen} 
-        onClose={() => setIsCartDrawerOpen(false)} 
+      {/* Cart Layout Component */}
+      <CartSide
+        isOpen={isCartDrawerOpen}
+        onClose={() => setIsCartDrawerOpen(false)}
       />
-
-      {/* Mobile Nav Overlay (Optional) */}
-      <BottomNavBar />
-    </div>
+    </MainLayout>
   );
 }
